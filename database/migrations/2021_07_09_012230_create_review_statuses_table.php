@@ -15,7 +15,7 @@ class CreateReviewStatusesTable extends Migration
     {
         Schema::create('review_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('description');
             $table->timestamps();
         });

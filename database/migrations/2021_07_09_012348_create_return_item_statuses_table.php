@@ -15,7 +15,7 @@ class CreateReturnItemStatusesTable extends Migration
     {
         Schema::create('return_item_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('description');
             $table->timestamps();
         });

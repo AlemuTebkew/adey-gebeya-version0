@@ -15,7 +15,7 @@ class CreateVendorStatusesTable extends Migration
     {
         Schema::create('vendor_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('description');
             $table->timestamps();
         });
