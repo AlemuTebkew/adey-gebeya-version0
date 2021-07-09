@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductSku extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'product_id','sku', 'unit_price','onhand_quantity',
+
+    ];
 }

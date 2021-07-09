@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RoleController;
 use Illuminate\Http\Request;
 
-class RoleControllerController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +30,10 @@ class RoleControllerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\RoleController  $roleController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(RoleController $roleController)
+    public function show($id)
     {
         //
     }
@@ -43,10 +42,10 @@ class RoleControllerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\RoleController  $roleController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RoleController $roleController)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -54,10 +53,10 @@ class RoleControllerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\RoleController  $roleController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RoleController $roleController)
+    public function destroy($id)
     {
         //
     }

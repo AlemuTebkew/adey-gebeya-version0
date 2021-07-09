@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductVisiblityStatus extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'name','description',
+    ];
 }

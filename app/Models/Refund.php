@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Refund extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'return_order_id', 'payment_type_id', 'amount',  
+      
+    ];
 }

@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReturnItemStatus extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'name','description',
+    ];
 }
