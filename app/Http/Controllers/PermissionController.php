@@ -14,7 +14,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        return Permission::all();
     }
 
     /**
@@ -25,7 +25,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Permission::create($request->all());
     }
 
     /**
@@ -36,8 +36,8 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        //
-    }
+        return $permission; 
+      }
 
     /**
      * Update the specified resource in storage.
@@ -48,7 +48,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $permission->update($request->all());
     }
 
     /**
@@ -59,6 +59,6 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
     }
 }

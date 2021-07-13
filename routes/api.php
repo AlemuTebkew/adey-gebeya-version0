@@ -30,3 +30,4 @@ Route::apiResource('/roles',RoleController::class);
 Route::apiResource('/permissions',PermissionController::class);
 Route::apiResource('/categories',CategoryController::class);
 Route::apiResource('/sub_categories',SubCategoryController::class);
+Route::post('/assignPermission/{role_id}',[RoleController::class,'assignPermission']);

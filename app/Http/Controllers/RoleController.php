@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -13,7 +15,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        return Role::with('permissions')->get();
     }
 
     /**
@@ -24,7 +26,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      Role::create($request->all());
     }
 
     /**
@@ -35,7 +37,8 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        return Role::find($id);
+
     }
 
     /**
@@ -47,7 +50,8 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role=Role::find($id);
+        $role->update($request->all());
     }
 
     /**
@@ -56,8 +60,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+    }
+    public function assignPermission(Request $request, $role_id){
+        $role=Role::find($role_id);
+          $role->permissions()->attach($request->toArray($request->all()));
     }
 }

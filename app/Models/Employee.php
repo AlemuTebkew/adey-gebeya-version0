@@ -14,4 +14,10 @@ class Employee extends Model
          'address_id', 'employee_status_id', 'role_id', 
    
        ];
+       public function role(){
+         return $this->hasOne(Role::class);
+       }
+       public function address(){
+         return $this->hasOne(Address::class);
+       }
 }
