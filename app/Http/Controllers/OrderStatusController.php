@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class OrderStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class OrderStatusController extends Controller
      */
     public function index()
     {
-        //
+        return OrderStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class OrderStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return OrderStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class OrderStatusController extends Controller
      */
     public function show(OrderStatus $orderStatus)
     {
-        //
+        return $orderStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class OrderStatusController extends Controller
      */
     public function update(Request $request, OrderStatus $orderStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $orderStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,12 @@ class OrderStatusController extends Controller
      */
     public function destroy(OrderStatus $orderStatus)
     {
-        //
+        if( $orderStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
+
     }
 }

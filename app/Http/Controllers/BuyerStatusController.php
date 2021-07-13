@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\BuyerStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class BuyerStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class BuyerStatusController extends Controller
      */
     public function index()
     {
-        //
+        return BuyerStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class BuyerStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return BuyerStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class BuyerStatusController extends Controller
      */
     public function show(BuyerStatus $buyerStatus)
     {
-        //
+      
     }
 
     /**
@@ -48,7 +54,11 @@ class BuyerStatusController extends Controller
      */
     public function update(Request $request, BuyerStatus $buyerStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $buyerStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,10 @@ class BuyerStatusController extends Controller
      */
     public function destroy(BuyerStatus $buyerStatus)
     {
-        //
-    }
+        if( $buyerStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }    }
 }

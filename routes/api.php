@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\BuyerStatusController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeStatusController;
+use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\PaymentTypeStatusController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductStatusController;
@@ -45,8 +47,10 @@ Route::apiResource('/payment_type_status',ProductStatusController::class);
 Route::apiResource('/product_status',ProductStatusController::class);
 Route::apiResource('/product_visiblity_status',ProductVisiblityStatusController::class);
 Route::apiResource('/return_item_status',ReturnItemStatusController::class);
-Route::apiResource('/return_status',ReturnStatusController::class);
+Route::apiResource('/return_order_status',ReturnStatusController::class);//return order status
 Route::apiResource('/review_status',ReviewStatusController::class);
 Route::apiResource('/vendor_status',VendorStatusController::class);
-
+Route::apiResource('/order_status',OrderStatusController::class);
+Route::apiResource('/buyer_status',BuyerStatusController::class);
+//
 Route::post('/assignPermission/{role_id}',[RoleController::class,'assignPermission']);
