@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeRequest;
+use App\Http\Resources\EmployeeResource;
 use App\Models\Address;
 use App\Models\Employee;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +19,13 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return Employee::all();
+        return EmployeeResource::collection( Employee::with(['role','employeeStatus'])->get());
     }
 
+    public function sort()
+    {
+        return $this->sortData(EmployeeResource::collection( Employee::with(['role','employeeStatus'])->get())->collection);
+    }
     /**
      * Store a newly created resource in storage.
      *

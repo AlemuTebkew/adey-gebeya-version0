@@ -15,6 +15,6 @@ class Role extends Model
        return $this->belongsToMany(Permission::class);
     }
     public function employees(){
-        return $this->belongsToMany(Employee::class);
+        return $this->hasMany(Employee::class);
      }
 }

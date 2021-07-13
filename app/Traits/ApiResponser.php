@@ -1,7 +1,6 @@
 <?php
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
@@ -27,9 +26,9 @@ trait ApiResponser{
 
          if (request()->has('sort_by')) {
 
-             $attribute= ApiResponser::originalAttributes(request('sort_by'));
+           //  $attribute= ApiResponser::originalAttributes(request('sort_by'));
 
-             $newCollection=$collection->sortBy($attribute);
+             $newCollection=$collection->sortBy(request()->sort_by);
              return $newCollection->values()->all();
          }
      return $collection;
@@ -39,7 +38,7 @@ trait ApiResponser{
     protected function filterData(Collection $collection){
 
         foreach (request()->query() as $query => $value) {
-            $attribute=ApiResponser::originalAttributes($query);
+         //   $attribute=ApiResponser::originalAttributes($query);
             if (isset($attribute,$value)) {
                 $collection=$collection->where($attribute,$value);
             }

@@ -52,5 +52,7 @@ Route::apiResource('/review_status',ReviewStatusController::class);
 Route::apiResource('/vendor_status',VendorStatusController::class);
 Route::apiResource('/order_status',OrderStatusController::class);
 Route::apiResource('/buyer_status',BuyerStatusController::class);
-//
+//sort
+Route::get('/sort_employees',[EmployeeController::class,'sort']);
+
 Route::post('/assignPermission/{role_id}',[RoleController::class,'assignPermission']);

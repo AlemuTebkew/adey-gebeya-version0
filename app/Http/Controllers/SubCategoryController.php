@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\SubCategory;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class SubCategoryController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +27,7 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $subCategory=new SubCategory();
         $request->validate([
             'name'=>'required',
             'description'=>'required',
@@ -33,8 +36,13 @@ class SubCategoryController extends Controller
 
 
 
-          $subcategory=SubCategory::create($request->all());
-          if ($subcategory) {
+          $subCategory->name=$request->name;
+          $subCategory->description=$request->description;
+          $subCategory->slug=Str::slug($request->name);
+          $subCategory->category_id=$request->category_id;
+          $subCategory->save();
+
+          if ($subCategory) {
               return $this->successResponse("SubCategory Created Successfully",201);
           } else {
               return $this->errorResponse('SubCategory not Created',402);
@@ -62,6 +70,8 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, SubCategory $subCategory)
     {
+       
+       
         $request->validate([
             'name'=>'required',
             'description'=>'required',
@@ -70,11 +80,16 @@ class SubCategoryController extends Controller
 
 
 
-          $subCategory->update($request->all());
+          $subCategory->name=$request->name;
+          $subCategory->description=$request->description;
+          $subCategory->slug=Str::slug($request->name);
+          $subCategory->category_id=$request->category_id;
+          $subCategory->save();
+
           if ($subCategory) {
-              return $this->successResponse("SubCategory Updated Successfully",201);
+              return $this->successResponse("SubCategory Created Successfully",201);
           } else {
-              return $this->errorResponse('SubCategory not Updated',402);
+              return $this->errorResponse('SubCategory not Created',402);
 
           }
     }
