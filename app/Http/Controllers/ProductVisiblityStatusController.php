@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductVisiblityStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class ProductVisiblityStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class ProductVisiblityStatusController extends Controller
      */
     public function index()
     {
-        //
+        return ProductVisiblityStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class ProductVisiblityStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return ProductVisiblityStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class ProductVisiblityStatusController extends Controller
      */
     public function show(ProductVisiblityStatus $productVisiblityStatus)
     {
-        //
+        return $productVisiblityStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class ProductVisiblityStatusController extends Controller
      */
     public function update(Request $request, ProductVisiblityStatus $productVisiblityStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $productVisiblityStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,11 @@ class ProductVisiblityStatusController extends Controller
      */
     public function destroy(ProductVisiblityStatus $productVisiblityStatus)
     {
-        //
+        if( $productVisiblityStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

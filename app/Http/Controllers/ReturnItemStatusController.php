@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReturnItemStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
-class ReturnItemStatusController extends Controller
+class ReturnItemStatusController extends Controller 
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class ReturnItemStatusController extends Controller
      */
     public function index()
     {
-        //
+      return  ReturnItemStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class ReturnItemStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'name'=>'required|unique:return_item_statuses', 
+           'description'=>'required',
+        ]);
+        return ReturnItemStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class ReturnItemStatusController extends Controller
      */
     public function show(ReturnItemStatus $returnItemStatus)
     {
-        //
+        return $returnItemStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class ReturnItemStatusController extends Controller
      */
     public function update(Request $request, ReturnItemStatus $returnItemStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $returnItemStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,12 @@ class ReturnItemStatusController extends Controller
      */
     public function destroy(ReturnItemStatus $returnItemStatus)
     {
-        //
+      if( $returnItemStatus->delete()) {
+          return $this->successResponse('successfully deleted ',202);
+      }
+      else{
+          return $this->errorResponse('fail to delete',501);
+      }
+
     }
 }

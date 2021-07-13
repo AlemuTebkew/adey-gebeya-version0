@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReviewStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class ReviewStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class ReviewStatusController extends Controller
      */
     public function index()
     {
-        //
+        return ReviewStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class ReviewStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return ReviewStatus::create($request->all());
     }
 
     /**
@@ -48,7 +54,11 @@ class ReviewStatusController extends Controller
      */
     public function update(Request $request, ReviewStatus $reviewStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $reviewStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,10 @@ class ReviewStatusController extends Controller
      */
     public function destroy(ReviewStatus $reviewStatus)
     {
-        //
-    }
+        if( $reviewStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }    }
 }

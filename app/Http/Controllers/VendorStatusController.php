@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\VendorStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class VendorStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class VendorStatusController extends Controller
      */
     public function index()
     {
-        //
+        return VendorStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class VendorStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return VendorStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class VendorStatusController extends Controller
      */
     public function show(VendorStatus $vendorStatus)
     {
-        //
+        return $vendorStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class VendorStatusController extends Controller
      */
     public function update(Request $request, VendorStatus $vendorStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $vendorStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,11 @@ class VendorStatusController extends Controller
      */
     public function destroy(VendorStatus $vendorStatus)
     {
-        //
+        if( $vendorStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

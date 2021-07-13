@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentTypeStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class PaymentTypeStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class PaymentTypeStatusController extends Controller
      */
     public function index()
     {
-        //
+        return PaymentTypeStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class PaymentTypeStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return PaymentTypeStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class PaymentTypeStatusController extends Controller
      */
     public function show(PaymentTypeStatus $paymentTypeStatus)
     {
-        //
+        return $paymentTypeStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class PaymentTypeStatusController extends Controller
      */
     public function update(Request $request, PaymentTypeStatus $paymentTypeStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $paymentTypeStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,11 @@ class PaymentTypeStatusController extends Controller
      */
     public function destroy(PaymentTypeStatus $paymentTypeStatus)
     {
-        //
+        if( $paymentTypeStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

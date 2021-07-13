@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReturnStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class ReturnStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class ReturnStatusController extends Controller
      */
     public function index()
     {
-        //
+        return ReturnStatus::all();
     }
 
     /**
@@ -25,7 +27,11 @@ class ReturnStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return ReturnStatus::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class ReturnStatusController extends Controller
      */
     public function show(ReturnStatus $returnStatus)
     {
-        //
+        return $returnStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class ReturnStatusController extends Controller
      */
     public function update(Request $request, ReturnStatus $returnStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $returnStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,11 @@ class ReturnStatusController extends Controller
      */
     public function destroy(ReturnStatus $returnStatus)
     {
-        //
+        if( $returnStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

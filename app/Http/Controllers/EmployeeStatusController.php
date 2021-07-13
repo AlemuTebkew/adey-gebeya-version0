@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmployeeStatus;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class EmployeeStatusController extends Controller
 {
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,7 @@ class EmployeeStatusController extends Controller
      */
     public function index()
     {
-        //
+        return EmployeeStatus::all();
     }
 
     /**
@@ -25,8 +27,12 @@ class EmployeeStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return EmployeeStatus::create($request->all());
+     }
 
     /**
      * Display the specified resource.
@@ -36,7 +42,7 @@ class EmployeeStatusController extends Controller
      */
     public function show(EmployeeStatus $employeeStatus)
     {
-        //
+        return $employeeStatus;
     }
 
     /**
@@ -48,7 +54,11 @@ class EmployeeStatusController extends Controller
      */
     public function update(Request $request, EmployeeStatus $employeeStatus)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:return_item_statuses', 
+            'description'=>'required',
+         ]);
+         return $employeeStatus->update($request->all());
     }
 
     /**
@@ -59,6 +69,11 @@ class EmployeeStatusController extends Controller
      */
     public function destroy(EmployeeStatus $employeeStatus)
     {
-        //
+        if( $employeeStatus->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }
