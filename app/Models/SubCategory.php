@@ -11,4 +11,8 @@ class SubCategory extends Model
     protected $fillable=[
         'option_id','product_id','product_sku_id','option_value_id',
     ];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }
