@@ -43,7 +43,7 @@ Route::apiResource('/categories',CategoryController::class);
 Route::apiResource('/sub_categories',SubCategoryController::class);
 //status table routes
 Route::apiResource('/employee_status',EmployeeStatusController::class);
-Route::apiResource('/payment_type_status',ProductStatusController::class);
+Route::apiResource('/payment_type_status',PaymentTypeStatusController::class);
 Route::apiResource('/product_status',ProductStatusController::class);
 Route::apiResource('/product_visiblity_status',ProductVisiblityStatusController::class);
 Route::apiResource('/return_item_status',ReturnItemStatusController::class);
