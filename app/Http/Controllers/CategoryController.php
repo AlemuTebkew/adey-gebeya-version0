@@ -6,7 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
 
@@ -26,23 +26,29 @@ use ApiResponser;
      */
     public function store(Request $request)
     {
+
+        $category=new Category();
         $request->validate([
             'name'=>'required',
             'description'=>'required',
-            'image'=>'image|mimetypes:jpg,png'
+            'image'=>'image'
           ]);
           $data=$request->all();
           if($request->hasFile('image')){
             $file=$request->file('image');
             $name = time().'.'.$file->extension();
             $file->move(public_path().'/images/category_icons/', $name);
-            $data['image']=$name;
+            $category->image=$name;
           }else{
-            $data['image']='default.png';
+            $category->image='default.png';
           }
 
 
-          $category=Category::create($data);
+          $category->name=$request->name;
+
+          $category->description=$request->description;
+          $category->slug=Str::slug($request->name);
+          $category->save();
           if ($category) {
               return $this->successResponse("Category Created Successfully",201);
           } else {
@@ -71,23 +77,27 @@ use ApiResponser;
      */
     public function update(Request $request, Category $category)
     {
+
         $request->validate([
             'name'=>'required',
             'description'=>'required',
-            'image'=>'mimetypes:jpg,png'
+            'image'=>'image|mimetypes:jpg,png'
           ]);
-          $data=$request->all();
           if($request->hasFile('image')){
             $file=$request->file('image');
             $name = time().'.'.$file->extension();
             $file->move(public_path().'/images/category_icons/', $name);
-            $data['image']=$name;
+            $category->image=$name;
           }else{
-            $data['image']='default.png';
+            $category->image='default.png';
           }
 
 
-          $category->update($data);
+          $category->name=$request->name;
+
+          $category->description=$request->description;
+          $category->slug=Str::slug($request->name);
+          $category->save();
           if ($category) {
               return $this->successResponse("Category Created Successfully",201);
           } else {
