@@ -15,6 +15,11 @@ class Vendor extends Model
           'url', 'fax', 'company_phone_number', 
    
        ];
+
+       public function products(){
+        return $this->hasMany(Product::class);
+    }
+    
        public function address(){
         return $this->belongsTo(Address::class);
       }

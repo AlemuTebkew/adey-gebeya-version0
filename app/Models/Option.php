@@ -12,4 +12,15 @@ class Option extends Model
         'product_id', 'name', 
    
        ];
+
+ 
+       public function option_values(){
+        return $this->hasMany(OptionValue::class);
+    }
+
+       public function product(){
+        return $this->belongsTo(Product::class);
+    }
+
+
 }

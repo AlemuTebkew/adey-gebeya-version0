@@ -22,4 +22,27 @@ class Product extends Model
     public function sub_category(){
         return $this->belongsTo(SubCategory::class);
     }
+
+     public function product_status(){
+        return $this->belongsTo(SubCategory::class);
+    }
+
+     public function product_visiblity_status(){
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    public function vendor(){
+        return $this->belongsTo(SubCategory::class);
+    } 
+     public function unit(){
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    public function options(){
+        return $this->hasMany(Option::class);
+    }
+
+    public function option_values(){
+        return $this->hasMany(OptionValue::class);
+    }
 }
