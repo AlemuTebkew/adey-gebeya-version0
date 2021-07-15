@@ -14,7 +14,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        return Unit::all();
     }
 
     /**
@@ -25,7 +25,17 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $unit=new Unit();
+        $request->validate([
+            'name'=>'required',
+            'description'=>'required',
+        
+            'abbrevation'=>'required'
+          ]);
+          $unit->name=$request->name;
+          $unit->description=$request->description;
+          $unit->abbrevation=$request->abbrevation;
+          $unit->save();
     }
 
     /**
@@ -36,7 +46,7 @@ class UnitController extends Controller
      */
     public function show(Unit $unit)
     {
-        //
+      return $unit;
     }
 
     /**
@@ -48,7 +58,15 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'description'=>'required',
+            'abbrevation'=>'required'
+          ]);
+          $unit->name=$request->name;
+          $unit->description=$request->description;
+          $unit->abbrevation=$request->abbrevation;
+          $unit->save();
     }
 
     /**
@@ -59,6 +77,11 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        //
+        if( $unit->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

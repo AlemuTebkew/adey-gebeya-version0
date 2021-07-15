@@ -21,7 +21,7 @@ use ApiResponser;
     }
 
     public function search(Request $request) {
-     
+     //--------search works but pagination donot work------------------
         $query=Employee::query();
         // $e='employees';
         $search=$request->search_by;

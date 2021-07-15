@@ -16,6 +16,7 @@ use App\Http\Controllers\ReviewStatusController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleControllerController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VendorStatusController;
 use App\Models\CategoryStatus;
 use App\Models\EmployeeStatus;
@@ -43,6 +44,8 @@ Route::apiResource('/roles',RoleController::class);
 Route::apiResource('/permissions',PermissionController::class);
 Route::apiResource('/categories',CategoryController::class);
 Route::apiResource('/sub_categories',SubCategoryController::class);
+Route::apiResource('/units',UnitController::class);
+
 //status table routes
 Route::apiResource('/employee_status',EmployeeStatusController::class);
 Route::apiResource('/payment_type_status',PaymentTypeStatusController::class);
