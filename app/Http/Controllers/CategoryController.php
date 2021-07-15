@@ -55,7 +55,7 @@ use ApiResponser;
             'name'=>'required',
             'description'=>'required',
             'image'=>'image',
-            'category_status_id'=>'required',
+            'have_sub_category'=>'required',
             
           ]);
           if($request->hasFile('image')){
@@ -73,7 +73,7 @@ use ApiResponser;
 
           $category->description=$request->description;
           $category->slug=Str::slug($request->name);
-          $category->category_status_id=$request->category_status_id;
+          $category->have_sub_category=$request->have_sub_category;
           $category->save();
           if ($category) {
               return $this->successResponse("Category Created Successfully",201);
@@ -108,7 +108,7 @@ use ApiResponser;
             'name'=>'required',
             'description'=>'required',
             'image'=>'image',
-            'category_status_id'=>'required',
+            'have_sub_category'=>'required',
           ]);
           if($request->hasFile('image')){
             $file=$request->file('image');
@@ -124,7 +124,7 @@ use ApiResponser;
 
           $category->description=$request->description;
           $category->slug=Str::slug($request->name);
-          $category->category_status_id=$request->category_status_id;
+          $category->have_sub_category=$request->have_sub_category;
           $category->save();
           if ($category) {
               return $this->successResponse("Category Created Successfully",201);

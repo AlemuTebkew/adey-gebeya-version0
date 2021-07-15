@@ -51,6 +51,7 @@ class SubCategoryController extends Controller
         $request->validate([
             'name'=>'required',
             'description'=>'required',
+            'have_product'=>'required',
             'category_id'=>'required'
           ]);
 
@@ -59,6 +60,7 @@ class SubCategoryController extends Controller
           $subCategory->name=$request->name;
           $subCategory->description=$request->description;
           $subCategory->slug=Str::slug($request->name);
+          $subCategory->have_product=$request->have_product;
           $subCategory->category_id=$request->category_id;
           $subCategory->save();
 
@@ -95,7 +97,9 @@ class SubCategoryController extends Controller
         $request->validate([
             'name'=>'required',
             'description'=>'required',
+            'have_product'=>'required',
             'category_id'=>'required'
+
           ]);
 
 
@@ -103,7 +107,9 @@ class SubCategoryController extends Controller
           $subCategory->name=$request->name;
           $subCategory->description=$request->description;
           $subCategory->slug=Str::slug($request->name);
+          $subCategory->have_product=$request->have_product;
           $subCategory->category_id=$request->category_id;
+
           $subCategory->save();
 
           if ($subCategory) {
