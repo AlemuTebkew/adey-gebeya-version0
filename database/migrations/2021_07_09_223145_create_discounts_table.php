@@ -20,7 +20,7 @@ class CreateDiscountsTable extends Migration
             $table->text('description');
             $table->double('discount_percent');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->date('end_date');
+            $table->date('start_date');
             $table->date('modified_date');
             $table->timestamps();
         });

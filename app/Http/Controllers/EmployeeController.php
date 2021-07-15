@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Employee;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -24,7 +25,27 @@ class EmployeeController extends Controller
 
     public function sort()
     {
-        return $this->sortData(EmployeeResource::collection( Employee::with(['role','employeeStatus'])->get())->collection);
+        return $this->sortData(EmployeeResource::collection(Employee::with(['role','employeeStatus'])->get())->collection);
+    }
+
+    public function filter()
+    {
+        return $this->filterData(EmployeeResource::collection(Employee::with(['role','employeeStatus'])->get())->collection);
+    }
+
+    public function search(Request $request) {
+     
+    // $e='employees';
+        $query=$request->search_by;
+        $search = Employee::where('first_name', 'like', "%{$query}%")
+                 ->orWhere('last_name', 'like', "%{$query}%")
+                 ->orWhere('email', 'like', "%{$query}%")
+                 ->orWhere('phone_number', 'like', "%{$query}%")
+                 ->get();
+
+        return response()->json([
+            'data' => $search
+        ]);
     }
     /**
      * Store a newly created resource in storage.
@@ -106,4 +127,5 @@ class EmployeeController extends Controller
     {
         $employee->delete();
     }
+ 
 }

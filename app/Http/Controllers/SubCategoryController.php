@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubCategoryResource;
 use App\Models\SubCategory;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -18,6 +19,25 @@ class SubCategoryController extends Controller
     {
         return SubCategory::all();
     }
+
+    public function search(Request $request) {
+     
+        // $e='employees';
+            $query=$request->search_by;
+            $search = SubCategory::where('name', 'like', "%{$query}%")
+                     ->orWhere('description', 'like', "%{$query}%")
+                    
+                     ->get();
+    
+            return response()->json([
+                'data' => $search
+            ]);
+        }
+
+        public function sort()
+        {
+            return $this->sortData(SubCategoryResource::collection(SubCategory::get())->collection);
+        }
 
     /**
      * Store a newly created resource in storage.

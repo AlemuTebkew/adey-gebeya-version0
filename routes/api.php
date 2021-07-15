@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BuyerStatusController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeStatusController;
 use App\Http\Controllers\OrderStatusController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleControllerController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\VendorStatusController;
+use App\Models\CategoryStatus;
 use App\Models\EmployeeStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +54,32 @@ Route::apiResource('/review_status',ReviewStatusController::class);
 Route::apiResource('/vendor_status',VendorStatusController::class);
 Route::apiResource('/order_status',OrderStatusController::class);
 Route::apiResource('/buyer_status',BuyerStatusController::class);
+Route::apiResource('/category_status',CategoryStatusController::class);
+
+//-----------employee .......//
 //sort
 Route::get('/sort_employees',[EmployeeController::class,'sort']);
+//filter
+Route::get('/filter_employees',[EmployeeController::class,'filter']);
+//search
+Route::get('/search_employees',[EmployeeController::class,'search']);
+//..............end employee...//
 
+//.....category............//
+//sort
+Route::get('/sort_categories',[CategoryController::class,'sort']);
+//filter
+Route::get('/filter_categories',[CategoryController::class,'filter']);
+//search
+Route::get('/search_categories',[CategoryController::class,'search']);
+//.....end category...../
+
+//.....subcategory............//
+//sort
+Route::get('/sort_sub_categories',[SubCategoryController::class,'sort']);
+//filter
+Route::get('/filter_sub_categories',[SubCategoryController::class,'filter']);
+//search
+Route::get('/search_sub_categories',[SubCategoryController::class,'search']);
+//.....end subcategory...../
 Route::post('/assignPermission/{role_id}',[RoleController::class,'assignPermission']);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStartDateToDiscounts extends Migration
+class CreateCategoryStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddStartDateToDiscounts extends Migration
      */
     public function up()
     {
-        Schema::table('discounts', function (Blueprint $table) {
-            //
+        Schema::create('category_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->text('description');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddStartDateToDiscounts extends Migration
      */
     public function down()
     {
-        Schema::table('discounts', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('category_statuses');
     }
 }

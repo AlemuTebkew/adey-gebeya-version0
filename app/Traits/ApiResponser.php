@@ -39,11 +39,13 @@ trait ApiResponser{
 
         foreach (request()->query() as $query => $value) {
          //   $attribute=ApiResponser::originalAttributes($query);
-            if (isset($attribute,$value)) {
-                $collection=$collection->where($attribute,$value);
+            if (isset($query,$value)) {
+                $newCollection=$collection->where($query,$value);
+                return $newCollection->values()->all();
+
             }
         }
-
+       
         return $collection;
     }
 
