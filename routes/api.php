@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BuyerStatusController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleControllerController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorStatusController;
 use App\Models\CategoryStatus;
 use App\Models\EmployeeStatus;
@@ -40,6 +42,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::apiResource('/employees',EmployeeController::class);
+Route::apiResource('/addresses',AddressController::class);
+
+Route::apiResource('/vendors',VendorController::class);
 Route::apiResource('/roles',RoleController::class);
 Route::apiResource('/permissions',PermissionController::class);
 Route::apiResource('/categories',CategoryController::class);

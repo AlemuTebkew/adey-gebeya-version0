@@ -15,6 +15,9 @@ class Address extends Model
 
     ];
     public function employee(){
-        return $this->BelongsTo(Employee::class);
+        return $this->hasOne(Employee::class);
+    }
+    public function vendor(){
+        return $this->hasOne(Vendor::class);
     }
 }

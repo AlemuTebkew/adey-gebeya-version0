@@ -19,7 +19,7 @@ class Employee extends Model
          return $this->belongsTo(Role::class);
        }
        public function address(){
-         return $this->hasOne(Address::class);
+         return $this->belongsTo(Address::class);
        }
        public function employeeStatus(){
         return $this->belongsTo(EmployeeStatus::class);

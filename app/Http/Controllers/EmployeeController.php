@@ -67,7 +67,7 @@ class EmployeeController extends Controller
         $address->longitude=$request->longitude;
         $address->latitude=$request->latitude;
         $address->description=$request->description;
-       
+        $address->save();
         // $address->refresh();
         
         $employee=new Employee();
@@ -83,9 +83,9 @@ class EmployeeController extends Controller
         //$employee->address_id=$request->address_id;
         $employee->role_id=$request->role_id;
         $employee->employee_status_id=$request->employee_status_id;
-        $employee->save();
-         $employee->refresh();
-        $employee->address()->save($address);
+       
+        $address->refresh();
+        $address->employee()->save($employee);
         
        
      
@@ -114,8 +114,38 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        $employee->update($request->all());
-    }
+        $address=$employee->address;
+        $address->country=$request->country;
+        $address->region=$request->region;
+        $address->zone=$request->zone;
+        $address->city=$request->city;
+        $address->sub_city=$request->sub_city;      
+        $address->zip_cod=$request->zip_cod;
+        $address->kebele=$request->kebele;
+        $address->village=$request->village;
+        $address->longitude=$request->longitude;
+        $address->latitude=$request->latitude;
+        $address->description=$request->description;
+        $address->save();
+        // $address->refresh();
+        
+      
+        $employee->first_name=$request->first_name;
+        $employee->last_name=$request->last_name;
+        $time = strtotime($request->date_of_birth);
+        $newformat = date('Y-m-d',$time);
+        $employee->date_of_birth=$newformat;
+        $employee->email=$request->email;
+        $employee->phone_number=$request->phone_number;
+        $employee->gender=$request->gender;
+        $employee->password=$request->password;
+        //$employee->address_id=$request->address_id;
+        $employee->role_id=$request->role_id;
+        $employee->employee_status_id=$request->employee_status_id;
+       
+        $address->refresh();
+        $address->employee()->save($employee);
+            }
 
     /**
      * Remove the specified resource from storage.
@@ -125,7 +155,13 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        $employee->delete();
-    }
+        
+
+        if($employee->address()->delete()&& $employee->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }    }
  
 }
