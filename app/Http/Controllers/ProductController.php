@@ -33,8 +33,13 @@ class ProductController extends Controller
         $product->description=$request->description;
         $product->slug=Str::slug($request->name);
         $product->short_description=$request->short_description;
-        $product->production_date=$request->production_date;
-        $product->expired_date=$request->expired_date;
+        //
+        //$time = strtotime($request->production_date);
+        // $newformat = date('Y-m-d',$time);
+        // $employee->date_of_birth=$newformat;
+        ///
+        $product->production_date=date('Y-m-d',strtotime($request->production_date));
+        $product->expired_date=date('Y-m-d',strtotime($request->expired_date));
         $product->commission_rate=$request->commission_rate;
         $product->brand=$request->brand;
         $product->quantity=$request->quantity;
@@ -50,7 +55,7 @@ class ProductController extends Controller
 
         foreach ($request->options as $option_name) {
             $option=new Option();
-            $option->name=$request->option_name;  
+            $option->name=$option_name;  
             $options[]=$option;
         }
         
@@ -58,18 +63,30 @@ class ProductController extends Controller
        
         $product->options()->saveMany($options);
 
-        foreach ($request->options as $option) {
+        
+       
+          
+             
+            foreach ($request->option_values as $key=> $value_name) {
+                $option_values=[];
+                for ($i=0; $i < count($value_name) ; $i++) { 
+                    $option_value=new OptionValue();
+                    $option_value->value=$value_name[$i];  
+                    $option_value->product_id=$product->id;  
+                    $option_values[]=$option_value;
 
-
-            foreach ($request->option_values as $value_name) {
-                $option_value=new OptionValue();
-                $option_value->name=$request->value_name;  
-                $option_values[]=$option_value;
+                }
+            //   return   $request->options;
+                 $option=Option::where('name',$request->options[$key])
+                 ->where('product_id',$product->id)
+                 ->first();
+                 // return $option_values;
+                $option->option_values()->saveMany($option_values);
+              //  $product->option_values()->saveMany($option_values);
+                 unset($option_values);
             }
-            $option->option_values()->saveMany($option_values);
-
-            $product->option_values()->saveMany($option_values);
-        }
+           
+        
 
     }
 

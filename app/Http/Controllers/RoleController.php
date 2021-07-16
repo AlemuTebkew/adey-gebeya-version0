@@ -26,7 +26,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-      return  $request->all();
+        $options=[];
+        $i=0;
+
+      foreach ($request->option_values as $key=> $value) {
+        return $key;
+
+        // $i++;
+          
+        }
+    
       Role::create($request->all());
     }
 

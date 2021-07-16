@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeStatusController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\PaymentTypeStatusController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductStatusController;
 use App\Http\Controllers\ProductVisiblityStatusController;
 use App\Http\Controllers\ReturnItemStatusController;
@@ -42,6 +43,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::apiResource('/employees',EmployeeController::class);
+Route::apiResource('/products',ProductController::class);
+
 Route::apiResource('/addresses',AddressController::class);
 
 Route::apiResource('/vendors',VendorController::class);
