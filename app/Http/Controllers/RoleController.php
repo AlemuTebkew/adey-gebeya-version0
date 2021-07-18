@@ -28,7 +28,7 @@ class RoleController extends Controller
     {
         $options=[];
         $i=0;
-
+        return $request->sku['bc'];
       foreach ($request->option_values as $key=> $value) {
         return $key;
 

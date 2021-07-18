@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Option;
 use App\Models\OptionValue;
 use App\Models\Product;
+use App\Models\ProductSku;
+use App\Models\SkuValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 class ProductController extends Controller
@@ -28,10 +31,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product=new Product();
-
-        $product->name=$request->name;        
-        $product->description=$request->description;
-        $product->slug=Str::slug($request->name);
         $product->short_description=$request->short_description;
         //
         //$time = strtotime($request->production_date);
@@ -85,7 +84,52 @@ class ProductController extends Controller
               //  $product->option_values()->saveMany($option_values);
                  unset($option_values);
             }
-           
+                   
+            $new_options=$product->options;
+            foreach ($request->sku as $key => $value) {
+            
+                // foreach ($value as $key => $value) {
+                 //   $request->file('images');
+                   // return $value['images']->extension();
+                    $sku=new ProductSku();
+                    $sku->sku=$value['sku'];
+                    $sku->onhand_quantity=$value['quantity'];
+                    $sku->unit_price=$value['price'];
+                    $sku->product_id=$product->id;
+                    $skus[]=$sku;
+                    $sku->save();
+                     
+                    //-----------------Sku VAlu table --the last combined table ..................../
+                  foreach ($product->options as $key => $option) {
+                    
+                    $sku_value=new SkuValue();
+                    $sku_value->product_id=$product->id;
+                    $sku_value->product_sku_id=$sku->id;
+                    $sku_value->option_id=$option->id;
+                 
+                    $sku_value->option_value_id=OptionValue::where('option_id',$option->id)->first() ; 
+                    $sku_value->save(); 
+                  }
+                  
+                    $images=[];
+                  
+                         foreach ($value['images'] as $file) {
+
+                            $name = time().'.'.$file->extension();
+                            $file->move(public_path().'/images/sku_images', $name);
+                            $image=new Image();
+                            $image->name=$name;
+                            $image->product_sku_id=$sku->id;
+
+                            $images[] = $image;
+  
+                     }
+
+                     $product->images()->saveMany($images);
+                            
+                  }
+
+              
         
 
     }

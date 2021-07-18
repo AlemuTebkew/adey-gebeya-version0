@@ -12,4 +12,13 @@ class ProductSku extends Model
         'product_id','sku', 'unit_price','onhand_quantity',
 
     ];
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+
+    
 }

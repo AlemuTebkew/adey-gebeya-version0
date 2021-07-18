@@ -45,4 +45,12 @@ class Product extends Model
     public function option_values(){
         return $this->hasMany(OptionValue::class);
     }
+
+    public function product_skus(){
+        return $this->hasMany(ProductSku::class);
+    }
+    
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
 }

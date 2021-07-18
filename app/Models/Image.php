@@ -13,4 +13,11 @@ class Image extends Model
          
    
        ];
+       
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+    public function product_sku(){
+        return $this->belongsTo(ProductSku::class);
+    }
 }
