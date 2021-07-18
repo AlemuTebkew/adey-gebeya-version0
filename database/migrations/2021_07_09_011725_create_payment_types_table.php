@@ -17,6 +17,8 @@ class CreatePaymentTypesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->text('description');
+            $table->foreignId('payment_type_status_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }

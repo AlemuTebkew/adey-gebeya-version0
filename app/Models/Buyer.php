@@ -14,4 +14,7 @@ class Buyer extends Model
         'type', 'address_id', 'buyer_status_id', 
    
        ];
+       public function review(){
+        return $this->hasMany(Review::class);
+     }
 }

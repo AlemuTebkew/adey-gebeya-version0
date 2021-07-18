@@ -14,7 +14,7 @@ class PaymentTypeController extends Controller
      */
     public function index()
     {
-        //
+     return PaymentType::all();
     }
 
     /**
@@ -25,7 +25,13 @@ class PaymentTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required', 
+            'description'=>'required',
+            'payment_type_status_id'=>'required'
+        ]);
+
+        PaymentType::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class PaymentTypeController extends Controller
      */
     public function show(PaymentType $paymentType)
     {
-        //
+        return $paymentType;
     }
 
     /**
@@ -48,7 +54,14 @@ class PaymentTypeController extends Controller
      */
     public function update(Request $request, PaymentType $paymentType)
     {
-        //
+        $request->validate([
+            'name'=>'required', 
+            'description'=>'required',
+            'payment_type_status_id'=>'required',
+
+        ]);
+
+        $paymentType->update($request->all());
     }
 
     /**
@@ -59,6 +72,11 @@ class PaymentTypeController extends Controller
      */
     public function destroy(PaymentType $paymentType)
     {
-        //
+        if( $paymentType->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

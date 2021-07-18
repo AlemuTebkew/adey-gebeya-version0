@@ -11,4 +11,7 @@ class ReviewStatus extends Model
     protected $fillable=[
         'name','description',
     ];
+    public function review(){
+        return $this->hasMany(Review::class);
+     }
 }

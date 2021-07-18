@@ -12,4 +12,11 @@ class Review extends Model
         'rate', 'description', 'buyer_id', 'product_name', 'title',
       
       ];
+      public function buyer(){
+        return $this->belongsTo(Buyer::class);
+     }
+     public function review_status(){
+      return $this->belongsTo(ReviewStatus::class);
+   }
+
 }

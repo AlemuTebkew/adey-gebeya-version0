@@ -14,7 +14,7 @@ class PaymentDetailController extends Controller
      */
     public function index()
     {
-        //
+        return PaymentDetail::all();
     }
 
     /**
@@ -25,7 +25,14 @@ class PaymentDetailController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'amount'=>'required', 
+            'payment_type_id'=>'required',
+        ]);
+
+       $paymentDetail=new PaymentDetail();
+       $paymentDetail->amount=$request->amount;
+       $paymentDetail->payment_type_id=$request->payment_type_id;
     }
 
     /**
@@ -36,7 +43,7 @@ class PaymentDetailController extends Controller
      */
     public function show(PaymentDetail $paymentDetail)
     {
-        //
+        return $paymentDetail;
     }
 
     /**
@@ -48,7 +55,13 @@ class PaymentDetailController extends Controller
      */
     public function update(Request $request, PaymentDetail $paymentDetail)
     {
-        //
+        $request->validate([
+            'amount'=>'required', 
+            'payment_type_id'=>'required',
+        ]);
+
+       $paymentDetail->amount=$request->amount;
+       $paymentDetail->payment_type_id=$request->payment_type_id;
     }
 
     /**
@@ -59,6 +72,11 @@ class PaymentDetailController extends Controller
      */
     public function destroy(PaymentDetail $paymentDetail)
     {
-        //
+        if( $paymentDetail->delete()) {
+            return $this->successResponse('successfully deleted ',202);
+        }
+        else{
+            return $this->errorResponse('fail to delete',501);
+        }
     }
 }

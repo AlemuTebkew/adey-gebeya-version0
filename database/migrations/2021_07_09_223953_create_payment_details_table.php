@@ -17,6 +17,7 @@ class CreatePaymentDetailsTable extends Migration
             $table->id();
             $table->double('amount');
             $table->foreignId('payment_type_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+           //this is not necessary for the time since billing info not  used in our payment method
             $table->foreignId('billing_address_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
