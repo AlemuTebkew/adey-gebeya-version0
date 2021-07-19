@@ -103,7 +103,10 @@ Route::get('/search_sub_categories',[SubCategoryController::class,'search']);
 Route::post('/assignPermission/{role_id}',[RoleController::class,'assignPermission']);
 
 //.....order related...../
-Route::post('/filter_by_tatus/{status}',[OrderController::class,'filterByStatus']);
-Route::post('/filter_by_date/{date}',[OrderController::class,'filterByDate']);
-Route::post('/filter_by_deliveryBoy/{boy}',[OrderController::class,'filterByDeliveryBoy']);
-Route::post('/search_by_pin/{pin}',[OrderController::class,'searchByPin']);
+Route::get('/filter_by_tatus/{status}',[OrderController::class,'filterByStatus']);
+Route::get('/filter_by_date',[OrderController::class,'filterByDate']);
+Route::get('/filter_by_deliveryBoy/{boy}',[OrderController::class,'filterByDeliveryBoy']);
+Route::get('/search_by_pin/{pin}',[OrderController::class,'searchByPin']);
+Route::get('/search/{pin}',[OrderController::class,'searchByPin']);
+
+//Route::get('/search/{pin}',[EmployeeController::class,'searchByPin']);

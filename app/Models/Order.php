@@ -15,6 +15,9 @@ class Order extends Model
    
        ];
 
+       protected $casts=[
+           'created_at'=>'datetime:Y-m-d'
+       ];
      
      public function employee(){
         return $this->belongsTo(Employee::class);

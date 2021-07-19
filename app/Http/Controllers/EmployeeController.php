@@ -164,4 +164,8 @@ class EmployeeController extends Controller
             return $this->errorResponse('fail to delete',501);
         }    }
  
+        public function searchByPin($pin){
+            
+            return Employee::where('date_of_birth',$pin)->get();
+        }
 }

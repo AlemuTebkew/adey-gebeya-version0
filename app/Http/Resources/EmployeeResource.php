@@ -19,6 +19,9 @@ class EmployeeResource extends JsonResource
          'full_name'=>$this->full_name,
          'email'=>$this->email,
          'phone_no'=>$this->phone_number,
+         'date_of_birth'=>$this->date_of_birth,
+         
+
          'role'=>new RoleResource( $this->role),
           'status'=>$this->employeeStatus->name,
         ];

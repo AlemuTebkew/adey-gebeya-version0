@@ -11,7 +11,7 @@ class BillingAddress extends Model
 
     protected $fillable=[
         'country', 'region', 'zone', 'city', 'sub_city', 'zip_code', 'kebele', 
-        'village', 'longitude', 'latitude', 'description',
+        'village', 'longitude', 'latitude', 'description','billing_address_id',
    
        ];
 }

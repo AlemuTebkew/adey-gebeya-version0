@@ -7,6 +7,8 @@ use App\Models\OrderItem;
 use App\Models\PaymentDetail;
 use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 class OrderController extends Controller
 {
@@ -33,7 +35,9 @@ class OrderController extends Controller
         2.save payment detail
         3.save order below
         */
-
+    //   DB::transaction(function() use($request) {
+          
+   
         $address=new ShippingAddress();
         $address->country=$request->country;
         $address->region=$request->region;
@@ -47,6 +51,8 @@ class OrderController extends Controller
         $address->latitude=$request->latitude;
         $address->description=$request->description;
         $address->save();
+     //   return $address;
+
 
         $payment_detail=new PaymentDetail();
         $payment_detail->amount=$request->amount;
@@ -56,7 +62,7 @@ class OrderController extends Controller
      
         
        $order=new Order();
-       $order->pin=Str::random(5);
+       $order->pin=rand(100,1000);
        $order->expected_time=date('Y-m-d',strtotime($request->expected_time));
       // $order->delivered_at=$request->delivered_at;
        $order->return_end_date=date('Y-m-d',strtotime($request->return_end_date));
@@ -65,20 +71,25 @@ class OrderController extends Controller
        $order->buyer_id=$request->buyer_id;
        $order->order_status_id=$request->order_status_id;
        $order->shipping_address_id =$address->id ;
-     //  $order->payment_detail_id=$payment_detail->id;
+       $order->payment_detail_id=$payment_detail->id;
   //return $payment_detail->id;
-       $payment_detail->order()->save($order);
+       $order->save();
         
     /**
      * 4.save order item
      * 
      */
-    
+      // $order_items=[];
      foreach ($request->order_items as  $value) {
 
 
         $order_item=new OrderItem();
-      
+        // $order_items[]=[
+        //     'order_id'=>$order->id,
+        //     'product_id'=>$value['product_id'],
+        //     'product_sku_id'=>$value['sku_id'],
+        //     'quantity'=>$value['quantity']
+        // ];
         $order_item->order_id=$order->id;
         $order_item->product_id=$value['product_id'];
         $order_item->product_sku_id=$value['sku_id'];
@@ -87,8 +98,9 @@ class OrderController extends Controller
         
         }
      
+      //  OrderItem::create($order_items);
    
-
+    // });
     }
 
     /**
@@ -138,10 +150,10 @@ class OrderController extends Controller
         return Order::where('order_status_id',$status);
     } 
 
-    public function filterByDate($date){
-        return Order::whereDate('created_at', '=', date('Y-m-d',$date));
+    public function filterByDate(){
+        return Order::whereDate('created_at',strtotime('2021-19-7'))->get();
 
-    }  
+    } 
     
     public function filterByDeliveryBoy($boy){
         return Order::where('employee_id',$boy)->latest();
@@ -149,7 +161,7 @@ class OrderController extends Controller
     } 
 
     public function searchByPin($pin){
-        return Order::where('pin',$pin);
+        return Order::where('pin',$pin)->get();
 
     } 
 }
