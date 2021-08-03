@@ -20,6 +20,8 @@ class CreateEmployeesTable extends Migration
             $table->date('date_of_birth');
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->string('gender');
             $table->string('password');
             $table->foreignId('address_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

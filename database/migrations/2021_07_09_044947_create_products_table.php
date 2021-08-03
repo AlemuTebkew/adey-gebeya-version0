@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->Date('expired_date');
             $table->double('commission_rate');
             $table->string('brand');
-            $table->double('quantity');
+            $table->double('total_quantity')->nullable();
             $table->string('manufacturer');
             $table->integer('number_of_sold');
             $table->foreignId('unit_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

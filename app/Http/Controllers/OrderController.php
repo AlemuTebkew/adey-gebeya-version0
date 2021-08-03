@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
+use App\Models\CartSession;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentDetail;
+use App\Models\ProductSku;
 use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,7 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Order::latest()->get();
+        return Order::with('order_items')->latest()->get();
     }
 
     /**
@@ -62,6 +65,7 @@ class OrderController extends Controller
      
         
        $order=new Order();
+
        $order->pin=rand(100,1000);
        $order->expected_time=date('Y-m-d',strtotime($request->expected_time));
       // $order->delivered_at=$request->delivered_at;
@@ -80,24 +84,32 @@ class OrderController extends Controller
      * 
      */
       // $order_items=[];
-     foreach ($request->order_items as  $value) {
+      $cart_items=CartItem::where('cart_session_id',1)->get();
+     foreach ($cart_items as  $item) {
 
 
         $order_item=new OrderItem();
         // $order_items[]=[
         //     'order_id'=>$order->id,
-        //     'product_id'=>$value['product_id'],
-        //     'product_sku_id'=>$value['sku_id'],
-        //     'quantity'=>$value['quantity']
+        //     'product_id'=>$item['product_id'],
+        //     'product_sku_id'=>$item['sku_id'],
+        //     'quantity'=>$item['quantity']
         // ];
         $order_item->order_id=$order->id;
-        $order_item->product_id=$value['product_id'];
-        $order_item->product_sku_id=$value['sku_id'];
-        $order_item->quantity=$value['quantity'];
+        $order_item->product_id=$item->product_id;
+        $order_item->product_sku_id=$item->sku_id;
+        $order_item->quantity=$item->quantity;
         $order_item->save();
+        $sku=ProductSku::find($item->sku_id);
+        $sku->quantity=$sku->quantity-$item->quantity;
+        $sku->save();
+        $item->delete();
         
+
         }
+        CartSession::where('buyer_id',1)->delete();
      
+        
       //  OrderItem::create($order_items);
    
     // });
@@ -147,7 +159,7 @@ class OrderController extends Controller
     }
 
     public function filterByStatus($status){
-        return Order::where('order_status_id',$status);
+        return Order::where('order_status_id',$status)->get();
     } 
 
     public function filterByDate(){

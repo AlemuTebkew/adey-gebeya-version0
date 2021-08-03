@@ -73,7 +73,7 @@ use ApiResponser;
 
           $category->description=$request->description;
           $category->slug=Str::slug($request->name);
-          $category->have_sub_category=$request->have_sub_category;
+          $category->have_sub_category=0;     //$request->have_sub_category;
           $category->save();
           if ($category) {
               return $this->successResponse("Category Created Successfully",201);
@@ -142,17 +142,28 @@ use ApiResponser;
      */
     public function destroy(Category $category)
     {
+        if($category){
+          $path= public_path('/images/category_icons/');
+            if($category->image && file_exists($path.$category->image)){
+                Storage::delete($path.$category->image);
+               // unlink($path.$category->image);
+            }
 
-        Storage::delete(public_path().'/images/category_icons/'.$category->image);
-        foreach ($category->sub_categories as $subCategories ) {
-            $subCategories->delete();
+            if($category->sub_categories->count() > 0){
+                $category->sub_categories->delete() ;
+            }
+            if($category->delete()) {
+                return $this->successResponse('successfully deleted ',202);
+            }
+            else{
+                return $this->errorResponse('fail to delete',501);
+            }
         }
 
-        if( $category->delete()) {
-            return $this->successResponse('successfully deleted ',202);
-        }
-        else{
-            return $this->errorResponse('fail to delete',501);
-        }
+        // foreach ($category->sub_categories as $subCategories ) {
+        //     $subCategories->delete();
+        // }
+
+ 
     }
 }

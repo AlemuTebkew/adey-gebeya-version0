@@ -12,4 +12,7 @@ class CartItem extends Model
     protected $fillable=[
         'cart_session_id','product_id','product_sku_id','quantity',
     ];
+    public function cart_session(){
+        return $this->belongsToMany(CartSession::class);
+    }
 }

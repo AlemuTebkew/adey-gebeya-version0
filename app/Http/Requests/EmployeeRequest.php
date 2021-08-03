@@ -26,11 +26,11 @@ class EmployeeRequest extends FormRequest
         return [
             'first_name'=>'required|alpha',
             'last_name'=>'required|alpha',
-            'date_of_birth'=>'required|before:13 years ago', // rules',
+            'date_of_birth'=>'required', // rules',
             'email'=>'required|email|unique:employees',
             'phone_number'=>'required|unique:employees',
             'gender'=>'required',
-            'password'=>'required|confirmed',
+            'password'=>'required',
             'role_id'=>'required',
             'employee_status_id'=>'required',
             'country'=>'required',

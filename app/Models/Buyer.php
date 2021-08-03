@@ -17,4 +17,7 @@ class Buyer extends Model
        public function review(){
         return $this->hasMany(Review::class);
      }
+     public function cart_session(){
+        return $this->hasOne(CartSession::class);
+    }
 }

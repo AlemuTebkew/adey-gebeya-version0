@@ -2,18 +2,47 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Employee extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+class Employee extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory;
+    use HasFactory, Notifiable,HasApiTokens;
+
+
+ 
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     protected $appends=['full_name'];
+
+
     protected $fillable=[
         'first_name', 'last_name', 'email', 'phone_number', 'gender', 'date_of_birth',  
          'address_id', 'employee_status_id', 'role_id', 
    
        ];
+
+          /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+      'password',
+      'remember_token',
+  ];
+
+  
        //relation ship methods
        public function role(){
          return $this->belongsTo(Role::class);

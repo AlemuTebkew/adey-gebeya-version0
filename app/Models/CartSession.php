@@ -11,4 +11,10 @@ class CartSession extends Model
     protected $fillable=[
         'buyer_id','total_price'
     ];
+    public function buyer(){
+        return $this->belongsTo(Buyer::class);
+    }
+    public function cart_items(){
+        return $this->hasMany(Buyer::class);
+    }
 }

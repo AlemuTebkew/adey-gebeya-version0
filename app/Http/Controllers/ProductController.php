@@ -8,10 +8,15 @@ use App\Models\OptionValue;
 use App\Models\Product;
 use App\Models\ProductSku;
 use App\Models\SkuValue;
+use App\Models\Tag;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PDO;
+
 class ProductController extends Controller
 {
+   use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -30,8 +35,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $product=new Product();
+        $product->name=$request->name;
+
+        $product->description=$request->description;
         $product->short_description=$request->short_description;
+
         //
         //$time = strtotime($request->production_date);
         // $newformat = date('Y-m-d',$time);
@@ -39,81 +49,110 @@ class ProductController extends Controller
         ///
         $product->production_date=date('Y-m-d',strtotime($request->production_date));
         $product->expired_date=date('Y-m-d',strtotime($request->expired_date));
-        $product->commission_rate=$request->commission_rate;
+        $product->commission_rate=2;
         $product->brand=$request->brand;
-        $product->quantity=$request->quantity;
+        // $product->price=$request->price;
+
+            // $product->total_quantity=$request->qty;
+
+        
         $product->manufacturer=$request->manufacturer;
-        $product->unit_id=$request->unit_id;
+        $product->unit_id=$request->unit_id;  //need to be check from db
         $product->vendor_id=$request->vendor_id;
         $product->sub_category_id=$request->sub_category_id;
-        $product->product_status_id=$request->product_status_id;
+        $product->product_status_id=$request->product_status_id;  
         $product->product_visiblity_status_id=$request->product_visiblity_status_id;
         $product->category_id=$request->category_id;
 
         $product->save();
+        
 
-        foreach ($request->options as $option_name) {
-            $option=new Option();
-            $option->name=$option_name;  
-            $options[]=$option;
+        $tags=explode(',',$request->tags);
+        foreach ($tags as $key => $tagName) {
+            $tag=new Tag();
+            $tag->name=$tagName;
+            $tag->save();
+            $tag_ids[]=$tag->id;
+        }
+       $product->tags()->sync($tag_ids);
+//
+       if(! $request->has_variant){
+        $sku=new ProductSku();
+        $sku->sku=$request->sku.$product->id;
+        $sku->onhand_quantity=$request->qty;
+        $sku->unit_price=$request->price;
+        $sku->product_id=$product->id;
+        // $skus[]=$sku;
+        $sku->save();
+       }
+       //below this if product has variation
+      
+       if($request->has_variant){
+           
+         foreach ($request->options as $option) {
+            // return response()->json($option['name']);
+
+        
+            $newoption=new Option();
+            $newoption->name=$option['name']; 
+            $newoption->product_id=$product->id; 
+            $newoption->save();
+            $optionIds[]=$newoption->id;
+            
+          foreach ($option['values'] as  $value) {
+              # code...
+
+              $option_value=new OptionValue();
+              $option_value->value=$value;  
+              $option_value->option_id=$newoption->id;  
+              $option_value->product_id=$product->id;  
+              $option_value->save();
+            //  $option_values[]=$option_value;
+          }
+           // $options[]=$option;
         }
         
 
        
-        $product->options()->saveMany($options);
+       // $product->options()->saveMany($options);
 
         
        
-          
-             
-            foreach ($request->option_values as $key=> $value_name) {
-                $option_values=[];
-                for ($i=0; $i < count($value_name) ; $i++) { 
-                    $option_value=new OptionValue();
-                    $option_value->value=$value_name[$i];  
-                    $option_value->product_id=$product->id;  
-                    $option_values[]=$option_value;
-
-                }
-            //   return   $request->options;
-                 $option=Option::where('name',$request->options[$key])
-                 ->where('product_id',$product->id)
-                 ->first();
-                 // return $option_values;
-                $option->option_values()->saveMany($option_values);
-              //  $product->option_values()->saveMany($option_values);
-                 unset($option_values);
-            }
-                   
-            $new_options=$product->options;
-            foreach ($request->sku as $key => $value) {
+  
+           
+            foreach ($request->variations as  $variation) {
             
                 // foreach ($value as $key => $value) {
                  //   $request->file('images');
                    // return $value['images']->extension();
                     $sku=new ProductSku();
-                    $sku->sku=$value['sku'];
-                    $sku->onhand_quantity=$value['quantity'];
-                    $sku->unit_price=$value['price'];
+                    $sku->sku=$variation['sku'].$product->id;
+                    $sku->onhand_quantity=$variation['qty'];
+                    $sku->unit_price=$variation['price'];
                     $sku->product_id=$product->id;
-                    $skus[]=$sku;
+                    // $skus[]=$sku;
                     $sku->save();
                      
                     //-----------------Sku VAlu table --the last combined table ..................../
-                  foreach ($product->options as $key => $option) {
+                   $i=0;
+                  foreach ($variation['variant'] as $key => $variant) {
                     
                     $sku_value=new SkuValue();
                     $sku_value->product_id=$product->id;
                     $sku_value->product_sku_id=$sku->id;
-                    $sku_value->option_id=$option->id;
-                 
-                    $sku_value->option_value_id=OptionValue::where('option_id',$option->id)->first() ; 
+                    $sku_value->option_id=$optionIds[$i];
+                    
+                    $sku_value->option_value_id=OptionValue::where('option_id',$optionIds[$i])
+                    ->where('value',$variant)->first()->id; 
+
                     $sku_value->save(); 
+
+                    $i++;
                   }
                   
                     $images=[];
                   
-                         foreach ($value['images'] as $file) {
+                         foreach ($variation['images'] as $file) {
 
                             $name = time().'.'.$file->extension();
                             $file->move(public_path().'/images/sku_images', $name);
@@ -130,9 +169,10 @@ class ProductController extends Controller
                   }
 
               
-        
-
-    }
+                
+            }
+        }
+    
 
     /**
      * Display the specified resource.
@@ -165,6 +205,20 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        // foreach ($order->order_items as $key => $order_items) {
+        //     $order_items->delete;
+              
+        //   }
+          if( $product->delete()) {
+              return $this->successResponse('successfully deleted ',200);
+          }
+          else{
+              return $this->errorResponse('fail to delete',501);
+          }
+      
+        
     }
+
+
+
 }

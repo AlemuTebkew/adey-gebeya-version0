@@ -20,7 +20,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return EmployeeResource::collection( Employee::with(['role','employeeStatus'])->get());
+      //  return EmployeeResource::collection( Employee::with(['role','employeeStatus'])->get());
+      return Employee::all();
     }
 
     public function sort()
@@ -114,7 +115,10 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
+        //return $employee->with('address')->get();
+
         $address=$employee->address;
+       // return $employee->with('address')->get();
         $address->country=$request->country;
         $address->region=$request->region;
         $address->zone=$request->zone;
@@ -145,6 +149,8 @@ class EmployeeController extends Controller
        
         $address->refresh();
         $address->employee()->save($employee);
+
+        return $employee;
             }
 
     /**
@@ -157,12 +163,13 @@ class EmployeeController extends Controller
     {
         
 
-        if($employee->address()->delete()&& $employee->delete()) {
+        if( $employee->delete()) {
             return $this->successResponse('successfully deleted ',202);
         }
         else{
             return $this->errorResponse('fail to delete',501);
-        }    }
+        } 
+   }
  
         public function searchByPin($pin){
             

@@ -23,4 +23,9 @@ class Category extends Model
         return $this->belongsTo(CategoryStatus::class);
     }
 
+
+    public function getImageAttribute($name){
+        return $this->image=asset('images/category_icons/'.$name) ;
+      }
+
 }

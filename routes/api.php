@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BuyerStatusController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserSide\CategoryController as UserCategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeStatusController;
@@ -64,7 +65,7 @@ Route::apiResource('/units',UnitController::class);
 Route::apiResource('/employee_status',EmployeeStatusController::class);
 Route::apiResource('/payment_type_status',PaymentTypeStatusController::class);
 Route::apiResource('/product_status',ProductStatusController::class);
-Route::apiResource('/product_visiblity_status',ProductVisiblityStatusController::class);
+Route::apiResource('/product_visiblity_statuses',ProductVisiblityStatusController::class);
 Route::apiResource('/return_item_status',ReturnItemStatusController::class);
 Route::apiResource('/return_order_status',ReturnStatusController::class);//return order status
 Route::apiResource('/review_status',ReviewStatusController::class);
@@ -103,10 +104,16 @@ Route::get('/search_sub_categories',[SubCategoryController::class,'search']);
 Route::post('/assignPermission/{role_id}',[RoleController::class,'assignPermission']);
 
 //.....order related...../
-Route::get('/filter_by_tatus/{status}',[OrderController::class,'filterByStatus']);
+Route::get('/filter_by_status/{status}',[OrderController::class,'filterByStatus']);
 Route::get('/filter_by_date',[OrderController::class,'filterByDate']);
 Route::get('/filter_by_deliveryBoy/{boy}',[OrderController::class,'filterByDeliveryBoy']);
 Route::get('/search_by_pin/{pin}',[OrderController::class,'searchByPin']);
 Route::get('/search/{pin}',[OrderController::class,'searchByPin']);
 
 //Route::get('/search/{pin}',[EmployeeController::class,'searchByPin']);
+
+
+//user side Route
+
+Route::get('/user/categories',[UserCategoryController::class,'index']);
+Route::get('/user/products',[UserCategoryController::class,'getSubCategoryProducts']);
