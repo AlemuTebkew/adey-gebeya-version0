@@ -15,7 +15,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-        return Vendor::all();
+        return Vendor::with('address')->get();
     }
 
     /**
@@ -27,11 +27,11 @@ class VendorController extends Controller
     public function store(Request $request)
     {
         $address=new Address();
-        $address->country=$request->country;
+        $address->country='Ethiopia';
         $address->region=$request->region;
         $address->zone=$request->zone;
         $address->city=$request->city;
-        $address->sub_city=$request->sub_city;      
+        $address->sub_city=$request->sub_city;
         $address->zip_cod=$request->zip_cod;
         $address->kebele=$request->kebele;
         $address->village=$request->village;
@@ -40,10 +40,10 @@ class VendorController extends Controller
         $address->description=$request->description;
         $address->save();
         // $address->refresh();
-        
+
         $vendor=new Vendor();
-        $vendor->contact_first_name=$request->first_name;
-        $vendor->contact_last_name=$request->last_name;
+        $vendor->contact_first_name=$request->contact_first_name;
+        $vendor->contact_last_name=$request->contact_last_name;
         $time = strtotime($request->date_of_birth);
         $newformat = date('Y-m-d',$time);
         $vendor->date_of_birth=$newformat;
@@ -55,8 +55,8 @@ class VendorController extends Controller
         $vendor->fax=$request->fax;
         $vendor->url=$request->url;
         $vendor->campany_name=$request->company_name;
-        $vendor->vendor_status_id=$request->vendor_status_id;
-       
+        $vendor->vendor_status_id=1;
+
          $vendor->refresh();
         $address->vendor()->save($vendor);
     }
@@ -86,7 +86,7 @@ class VendorController extends Controller
         $address->region=$request->region;
         $address->zone=$request->zone;
         $address->city=$request->city;
-        $address->sub_city=$request->sub_city;      
+        $address->sub_city=$request->sub_city;
         $address->zip_cod=$request->zip_cod;
         $address->kebele=$request->kebele;
         $address->village=$request->village;
@@ -95,8 +95,8 @@ class VendorController extends Controller
         $address->description=$request->description;
         $address->save();
         // $address->refresh();
-        
-     
+
+
         $vendor->contact_first_name=$request->first_name;
         $vendor->contact_last_name=$request->last_name;
         $time = strtotime($request->date_of_birth);
@@ -111,7 +111,7 @@ class VendorController extends Controller
         $vendor->url=$request->url;
         $vendor->campany_name=$request->company_name;
         $vendor->vendor_status_id=$request->vendor_status_id;
-      
+
          $vendor->refresh();
         $address->vendor()->save($vendor);
     }

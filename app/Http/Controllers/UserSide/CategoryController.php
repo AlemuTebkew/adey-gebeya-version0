@@ -10,6 +10,10 @@ use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Http\Resources\UserSide\CategoryResource;
+use App\Http\Resources\UserSide\ProductResource;
+use App\Models\Image;
+use App\Models\Product;
+use App\Models\ProductSku;
 
 class CategoryController extends Controller
 {
@@ -26,16 +30,14 @@ class CategoryController extends Controller
         )->with('sub_categories')->get());
     }
 
-    // public function getSubCategoryProducts($subCategoryId){
-  
-    //     $products=Product::where('sub_category_id',$subCategoryId)->get();
-    //     return $products;
-    //     foreach ($products as $product) {
-            
-    //         skus[]=$product->product_skus->first();
-    //     }
+    public function getSubCategoryProducts($subCategoryId){
 
-    // }
+        $products=ProductResource::collection(Product::where('sub_category_id',$subCategoryId)
+        ->with(['product_skus','unit','reviews'])->get());
+        return $products;
+
+
+    }
     /**
      * Store a newly created resource in storage.
      *

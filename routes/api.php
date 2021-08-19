@@ -84,7 +84,7 @@ Route::get('/filter_employees',[EmployeeController::class,'filter']);
 Route::get('/search_employees',[EmployeeController::class,'search']);
 //..............end employee...//
 
-//.....category............//
+//.....category............// it done well and have to copy to all
 //sort
 Route::get('/sort_categories',[CategoryController::class,'sort']);
 //filter
@@ -116,4 +116,4 @@ Route::get('/search/{pin}',[OrderController::class,'searchByPin']);
 //user side Route
 
 Route::get('/user/categories',[UserCategoryController::class,'index']);
-Route::get('/user/products',[UserCategoryController::class,'getSubCategoryProducts']);
+Route::get('/user/{category}/products',[UserCategoryController::class,'getSubCategoryProducts']);

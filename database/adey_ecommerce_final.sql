@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `addresses`
 --
 
-CREATE TABLE `addresses` (
+CREATE TABLE IF NOT EXISTS `addresses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `region` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -78,7 +78,7 @@ INSERT INTO `addresses` (`id`, `country`, `region`, `zone`, `city`, `sub_city`, 
 -- Table structure for table `billing_addresses`
 --
 
-CREATE TABLE `billing_addresses` (
+CREATE TABLE IF NOT EXISTS `billing_addresses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `region` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -96,12 +96,31 @@ CREATE TABLE `billing_addresses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `buyer_statuses`
+--
+
+CREATE TABLE IF NOT EXISTS `buyer_statuses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `buyer_statuses`
+--
+
+INSERT INTO `buyer_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'blocked', 'a user will be blocked from using our site.', '2021-07-13 06:13:39', '2021-07-13 06:13:39'),
+(2, 'active', 'normal user', '2021-07-13 06:13:55', '2021-07-13 06:13:55');
 
 --
 -- Table structure for table `buyers`
 --
 
-CREATE TABLE `buyers` (
+CREATE TABLE IF NOT EXISTS `buyers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -127,25 +146,6 @@ INSERT INTO `buyers` (`id`, `first_name`, `last_name`, `date_of_birth`, `email`,
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `buyer_statuses`
---
-
-CREATE TABLE `buyer_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `buyer_statuses`
---
-
-INSERT INTO `buyer_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'blocked', 'a user will be blocked from using our site.', '2021-07-13 06:13:39', '2021-07-13 06:13:39'),
-(2, 'active', 'normal user', '2021-07-13 06:13:55', '2021-07-13 06:13:55');
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ INSERT INTO `buyer_statuses` (`id`, `name`, `description`, `created_at`, `update
 -- Table structure for table `cart_items`
 --
 
-CREATE TABLE `cart_items` (
+CREATE TABLE IF NOT EXISTS `cart_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `quantity` double NOT NULL,
   `cart_session_id` bigint(20) UNSIGNED NOT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE `cart_items` (
 -- Table structure for table `cart_sessions`
 --
 
-CREATE TABLE `cart_sessions` (
+CREATE TABLE IF NOT EXISTS `cart_sessions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `total_price` double NOT NULL,
   `buyer_id` bigint(20) UNSIGNED NOT NULL,
@@ -185,7 +185,7 @@ CREATE TABLE `cart_sessions` (
 -- Table structure for table `categories`
 --
 
-CREATE TABLE `categories` (
+CREATE TABLE IF NOT EXISTS `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -213,7 +213,7 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `image`, `have_su
 -- Table structure for table `commissions`
 --
 
-CREATE TABLE `commissions` (
+CREATE TABLE IF NOT EXISTS `commissions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_item_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE `commissions` (
 -- Table structure for table `discounts`
 --
 
-CREATE TABLE `discounts` (
+CREATE TABLE IF NOT EXISTS `discounts` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -241,12 +241,31 @@ CREATE TABLE `discounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `employee_statuses`
+--
+
+CREATE TABLE IF NOT EXISTS `employee_statuses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `employee_statuses`
+--
+
+INSERT INTO `employee_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'active', 'normal user', NULL, NULL),
+(3, 'inactive', 'employee are inactive shall not access the database', '2021-07-13 04:43:13', '2021-07-13 04:43:13');
 
 --
 -- Table structure for table `employees`
 --
 
-CREATE TABLE `employees` (
+CREATE TABLE IF NOT EXISTS `employees` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -267,10 +286,10 @@ CREATE TABLE `employees` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employee_statuses`
+-- Table structure for table `product_visiblity_statuses`
 --
 
-CREATE TABLE `employee_statuses` (
+CREATE TABLE IF NOT EXISTS `product_visiblity_statuses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -279,12 +298,161 @@ CREATE TABLE `employee_statuses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `employee_statuses`
+-- Dumping data for table `product_visiblity_statuses`
 --
 
-INSERT INTO `employee_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'active', 'normal user', NULL, NULL),
-(3, 'inactive', 'employee are inactive shall not access the database', '2021-07-13 04:43:13', '2021-07-13 04:43:13');
+INSERT INTO `product_visiblity_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'new', 'product is new', '2021-07-13 06:02:56', '2021-07-13 06:02:56'),
+(2, 'featured', 'product is featured', '2021-07-13 06:03:18', '2021-07-13 06:03:18'),
+(3, 'best seller', 'product is best seller', '2021-07-13 06:03:50', '2021-07-13 06:03:50'),
+(4, 'normal', 'product is normal(default)', '2021-07-13 06:04:18', '2021-07-13 06:04:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `short_description` text COLLATE utf8_unicode_ci NOT NULL,
+  `production_date` date NOT NULL,
+  `expired_date` date NOT NULL,
+  `commission_rate` double NOT NULL,
+  `brand` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total_quantity` double DEFAULT NULL,
+  `manufacturer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `number_of_sold` int(11) NOT NULL,
+  `unit_id` bigint(20) UNSIGNED NOT NULL,
+  `vendor_id` bigint(20) UNSIGNED NOT NULL,
+  `sub_category_id` bigint(20) UNSIGNED NOT NULL,
+  `product_status_id` bigint(20) UNSIGNED NOT NULL,
+  `product_visiblity_status_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`, `production_date`, `expired_date`, `commission_rate`, `brand`, `total_quantity`, `manufacturer`, `number_of_sold`, `unit_id`, `vendor_id`, `sub_category_id`, `product_status_id`, `product_visiblity_status_id`, `category_id`, `created_at`, `updated_at`) VALUES
+(174, 'Bokolo nifro', '', 'geramy bokolo', 'short1`short2`short3`short4short5', '2021-07-07', '2021-07-07', 2, 'Adey Basics', 5, 'Z End industrial engineering', 0, 36, 1, 21, 2, 4, 15, '2021-07-31 07:23:06', '2021-07-31 07:23:06'),
+(176, 'z comfort', '', 'High comfort', 'short1`short2`short3`short4short5', '2021-07-08', '2021-07-14', 2, 'Adey Basics', 4, 'Z End industrial engineering', 0, 38, 1, 14, 1, 4, 14, '2021-07-31 08:33:41', '2021-07-31 08:33:41'),
+(179, 'Banana', '', 'fresh quality banana', 'short1`short2`short3`short4short5', '2021-07-14', '2021-07-23', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 36, 1, 20, 2, 2, 15, '2021-07-31 09:15:25', '2021-07-31 09:15:25'),
+(180, 'Banana', '', 'fresh quality banana', 'short1`short2`short3`short4short5', '2021-07-14', '2021-07-23', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 36, 1, 20, 2, 2, 15, '2021-07-31 09:18:17', '2021-07-31 09:18:17'),
+(181, 'Banana', '', 'fresh quality banana', 'short1`short2`short3`short4short5', '2021-07-14', '2021-07-23', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 36, 1, 20, 2, 2, 15, '2021-07-31 09:19:14', '2021-07-31 09:19:14'),
+(183, 'Techno', '', 'our best version of techno v...', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-14', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:02:47', '2021-07-31 12:02:47'),
+(184, 'Samsung Galaxy', '', 'samsung s12', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-08', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:09:19', '2021-07-31 12:09:19'),
+(185, 'Samsung Galaxy', '', 'samsung s12', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-08', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:14:22', '2021-07-31 12:14:22'),
+(186, 'Heral News', '', 'samsung s12', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-08', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:16:05', '2021-07-31 12:16:05'),
+(187, 'Sinarline Exercise Book', '', 'best ISO standard', 'short1`short2`short3`short4short5', '2021-07-16', '2021-07-14', 2, 'das4', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 3, 13, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
+(188, 'Zara', '', 'zara ena chandra', 'short1`short2`short3`short4short5', '2021-07-09', '2021-07-09', 2, 'Adey Basics', NULL, 'Z end technology', 0, 38, 1, 14, 1, 1, 14, '2021-07-31 12:31:08', '2021-07-31 12:31:08'),
+(189, 'Zara', '', 'asdfasd', 'short1`short2`short3`short4short5', '2021-07-15', '2021-07-07', 2, 'Adey Basics', NULL, 'Z end technology', 0, 38, 1, 23, 1, 1, 13, '2021-07-31 12:38:58', '2021-07-31 12:38:58'),
+(190, 'z comfort', '', 'sdfas', 'short1`short2`short3`short4short5', '2021-07-28', '2021-07-22', 2, 'da', NULL, 'Z end technology', 0, 38, 1, 23, 1, 1, 13, '2021-07-31 17:40:27', '2021-07-31 17:40:27'),
+(194, 'shose', '', 'rtrt', 'heihg quality`heihg quality`heihg quality', '2021-07-30', '1970-01-01', 2, 'nike', NULL, 'nike campany', 0, 36, 1, 20, 1, 3, 15, '2021-08-02 06:31:36', '2021-08-02 06:31:36'),
+(195, 'shose', '', 'rtrt', 'heihg quality`heihg quality`heihg quality', '2021-07-30', '1970-01-01', 2, 'nike', NULL, 'nike campany', 0, 36, 1, 20, 1, 3, 15, '2021-08-02 06:32:39', '2021-08-02 06:32:39'),
+(196, 'shose', '', 'fgfg', 'heihg quality`heihg quality`heihg quality', '2021-07-30', '1970-01-01', 2, 'nike', NULL, 'nike campany', 0, 36, 1, 20, 1, 3, 15, '2021-08-02 06:43:57', '2021-08-02 06:43:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_skus`
+--
+
+CREATE TABLE IF NOT EXISTS `product_skus` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `sku` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `unit_price` double NOT NULL,
+  `onhand_quantity` int(11) NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `product_skus`
+--
+
+INSERT INTO `product_skus` (`id`, `sku`, `unit_price`, `onhand_quantity`, `product_id`, `created_at`, `updated_at`) VALUES
+(105, 'wh-lg', 3, 4, 174, '2021-07-31 07:23:06', '2021-07-31 07:23:06'),
+(106, 'bl-md', 5, 5, 174, '2021-07-31 07:23:07', '2021-07-31 07:23:07'),
+(110, 'wh', 1410, 5, 183, '2021-07-31 12:02:47', '2021-07-31 12:02:47'),
+(111, 'bl', 1246, 5, 183, '2021-07-31 12:02:47', '2021-07-31 12:02:47'),
+(113, 'wh185', 3, 3, 185, '2021-07-31 12:14:22', '2021-07-31 12:14:22'),
+(114, 'bl185', 4, 3, 185, '2021-07-31 12:14:23', '2021-07-31 12:14:23'),
+(115, 'wh186', 3, 3, 186, '2021-07-31 12:16:05', '2021-07-31 12:16:05'),
+(116, 'bl186', 4, 3, 186, '2021-07-31 12:16:05', '2021-07-31 12:16:05'),
+(117, '32187', 4, 5, 187, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
+(118, '50187', 5, 6, 187, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
+(119, '10187', 4, 3, 187, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
+(120, '196', 12, 42, 196, '2021-08-02 06:43:57', '2021-08-02 06:43:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_statuses`
+--
+
+CREATE TABLE IF NOT EXISTS `product_statuses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `product_statuses`
+--
+
+INSERT INTO `product_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'pending', 'product is waiting to be accepted and verified by product managment team .it is a defualt state when a vendor list his product.till it is inspected', '2021-07-13 04:48:20', '2021-07-13 04:48:20'),
+(2, 'active', 'product will be automatically listed on this state', '2021-07-13 04:48:58', '2021-07-13 04:48:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `product_tag` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `tag_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `product_tag`
+--
+
+INSERT INTO `product_tag` (`id`, `product_id`, `tag_id`, `created_at`, `updated_at`) VALUES
+(99, 174, 126, NULL, NULL),
+(100, 174, 127, NULL, NULL),
+(102, 176, 129, NULL, NULL),
+(105, 179, 132, NULL, NULL),
+(106, 179, 133, NULL, NULL),
+(107, 181, 135, NULL, NULL),
+(108, 181, 136, NULL, NULL),
+(111, 183, 139, NULL, NULL),
+(112, 184, 140, NULL, NULL),
+(113, 185, 141, NULL, NULL),
+(114, 186, 142, NULL, NULL),
+(115, 187, 143, NULL, NULL),
+(116, 188, 144, NULL, NULL),
+(117, 189, 145, NULL, NULL),
+(118, 189, 146, NULL, NULL),
+(119, 190, 147, NULL, NULL),
+(121, 195, 150, NULL, NULL),
+(122, 196, 151, NULL, NULL);
+
+-- --------------------------------------------------------
 
 -- --------------------------------------------------------
 
@@ -292,7 +460,7 @@ INSERT INTO `employee_statuses` (`id`, `name`, `description`, `created_at`, `upd
 -- Table structure for table `images`
 --
 
-CREATE TABLE `images` (
+CREATE TABLE IF NOT EXISTS `images` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `product_sku_id` bigint(20) UNSIGNED NOT NULL,
@@ -342,7 +510,7 @@ INSERT INTO `images` (`id`, `product_id`, `product_sku_id`, `name`, `created_at`
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
+CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
@@ -410,7 +578,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `options`
 --
 
-CREATE TABLE `options` (
+CREATE TABLE IF NOT EXISTS `options` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
@@ -439,7 +607,7 @@ INSERT INTO `options` (`id`, `name`, `product_id`, `created_at`, `updated_at`) V
 -- Table structure for table `option_values`
 --
 
-CREATE TABLE `option_values` (
+CREATE TABLE IF NOT EXISTS `option_values` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
@@ -476,12 +644,37 @@ INSERT INTO `option_values` (`id`, `value`, `product_id`, `option_id`, `created_
 (305, '100', 187, 256, '2021-07-31 12:21:56', '2021-07-31 12:21:56');
 
 -- --------------------------------------------------------
+--
+-- Table structure for table `order_statuses`
+--
+
+CREATE TABLE IF NOT EXISTS `order_statuses` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `order_statuses`
+--
+
+INSERT INTO `order_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'new', 'new order', '2021-07-13 05:43:29', '2021-07-13 05:43:29'),
+(2, 'confirmed', 'default value it is to let know that the order is accepted by our  team and it is going to be further processed by shipment department to be shipped for our customer', '2021-07-13 05:47:25', '2021-07-13 05:47:25'),
+(3, 'cancel', 'the orderr has been canceled', '2021-07-13 05:47:57', '2021-07-13 05:47:57'),
+(4, 'delivered', 'the orderr has been delivered', '2021-07-13 05:48:23', '2021-07-13 05:48:23'),
+(5, 'pending', 'the orderr has not be confirmed', '2021-07-13 05:48:45', '2021-07-13 05:48:45'),
+(6, 'closed', 'the order has been successfully delivered and passed the return issued date.', '2021-07-13 05:49:24', '2021-07-13 05:49:24');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `orders`
 --
 
-CREATE TABLE `orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `pin` int(11) NOT NULL,
   `expected_time` datetime NOT NULL,
@@ -515,7 +708,7 @@ INSERT INTO `orders` (`id`, `pin`, `expected_time`, `delivered_at`, `return_end_
 -- Table structure for table `order_items`
 --
 
-CREATE TABLE `order_items` (
+CREATE TABLE IF NOT EXISTS `order_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
@@ -527,11 +720,19 @@ CREATE TABLE `order_items` (
 
 -- --------------------------------------------------------
 
+
 --
--- Table structure for table `order_statuses`
+-- Table structure for table `password_resets`
 --
 
-CREATE TABLE `order_statuses` (
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS `payment_type_statuses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -540,36 +741,36 @@ CREATE TABLE `order_statuses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `order_statuses`
+-- Dumping data for table `payment_type_statuses`
 --
 
-INSERT INTO `order_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'new', 'new order', '2021-07-13 05:43:29', '2021-07-13 05:43:29'),
-(2, 'confirmed', 'default value it is to let know that the order is accepted by our  team and it is going to be further processed by shipment department to be shipped for our customer', '2021-07-13 05:47:25', '2021-07-13 05:47:25'),
-(3, 'cancel', 'the orderr has been canceled', '2021-07-13 05:47:57', '2021-07-13 05:47:57'),
-(4, 'delivered', 'the orderr has been delivered', '2021-07-13 05:48:23', '2021-07-13 05:48:23'),
-(5, 'pending', 'the orderr has not be confirmed', '2021-07-13 05:48:45', '2021-07-13 05:48:45'),
-(6, 'closed', 'the order has been successfully delivered and passed the return issued date.', '2021-07-13 05:49:24', '2021-07-13 05:49:24');
+INSERT INTO `payment_type_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'active', 'payment type is active', '2021-07-13 05:57:43', '2021-07-13 05:57:43'),
+(2, 'inactive', 'payment type is in active', '2021-07-13 05:58:17', '2021-07-13 05:58:17');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `password_resets`
---
-
-CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
+CREATE TABLE IF NOT EXISTS `payment_types` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `payment_type_status_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `payment_types`
+--
+
+INSERT INTO `payment_types` (`id`, `name`, `description`, `payment_type_status_id`, `created_at`, `updated_at`) VALUES
+(1, 'cbe', 'u can pay with cbe', 1, '2021-07-18 11:19:13', '2021-07-18 11:19:13'),
+(2, 'credit card', 'u can pay with cc', 1, '2021-07-18 11:19:32', '2021-07-18 11:19:32');
 
 --
 -- Table structure for table `payment_details`
 --
 
-CREATE TABLE `payment_details` (
+CREATE TABLE IF NOT EXISTS `payment_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `amount` double NOT NULL,
   `payment_type_id` bigint(20) UNSIGNED NOT NULL,
@@ -597,22 +798,6 @@ INSERT INTO `payment_details` (`id`, `amount`, `payment_type_id`, `billing_addre
 -- Table structure for table `payment_types`
 --
 
-CREATE TABLE `payment_types` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `payment_type_status_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `payment_types`
---
-
-INSERT INTO `payment_types` (`id`, `name`, `description`, `payment_type_status_id`, `created_at`, `updated_at`) VALUES
-(1, 'cbe', 'u can pay with cbe', 1, '2021-07-18 11:19:13', '2021-07-18 11:19:13'),
-(2, 'credit card', 'u can pay with cc', 1, '2021-07-18 11:19:32', '2021-07-18 11:19:32');
 
 -- --------------------------------------------------------
 
@@ -620,21 +805,6 @@ INSERT INTO `payment_types` (`id`, `name`, `description`, `payment_type_status_i
 -- Table structure for table `payment_type_statuses`
 --
 
-CREATE TABLE `payment_type_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `payment_type_statuses`
---
-
-INSERT INTO `payment_type_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'active', 'payment type is active', '2021-07-13 05:57:43', '2021-07-13 05:57:43'),
-(2, 'inactive', 'payment type is in active', '2021-07-13 05:58:17', '2021-07-13 05:58:17');
 
 -- --------------------------------------------------------
 
@@ -642,7 +812,7 @@ INSERT INTO `payment_type_statuses` (`id`, `name`, `description`, `created_at`, 
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE `permissions` (
+CREATE TABLE IF NOT EXISTS `permissions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -674,7 +844,7 @@ INSERT INTO `permissions` (`id`, `name`, `description`, `created_at`, `updated_a
 -- Table structure for table `permission_role`
 --
 
-CREATE TABLE `permission_role` (
+CREATE TABLE IF NOT EXISTS `permission_role` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `role_id` bigint(20) UNSIGNED NOT NULL,
   `permission_id` bigint(20) UNSIGNED NOT NULL,
@@ -705,7 +875,7 @@ INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`, `created_at`, `
 -- Table structure for table `personal_access_tokens`
 --
 
-CREATE TABLE `personal_access_tokens` (
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `tokenable_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
@@ -719,180 +889,12 @@ CREATE TABLE `personal_access_tokens` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `products`
---
-
-CREATE TABLE `products` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `short_description` text COLLATE utf8_unicode_ci NOT NULL,
-  `production_date` date NOT NULL,
-  `expired_date` date NOT NULL,
-  `commission_rate` double NOT NULL,
-  `brand` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `total_quantity` double DEFAULT NULL,
-  `manufacturer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `number_of_sold` int(11) NOT NULL,
-  `unit_id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` bigint(20) UNSIGNED NOT NULL,
-  `sub_category_id` bigint(20) UNSIGNED NOT NULL,
-  `product_status_id` bigint(20) UNSIGNED NOT NULL,
-  `product_visiblity_status_id` bigint(20) UNSIGNED NOT NULL,
-  `category_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`id`, `name`, `slug`, `description`, `short_description`, `production_date`, `expired_date`, `commission_rate`, `brand`, `total_quantity`, `manufacturer`, `number_of_sold`, `unit_id`, `vendor_id`, `sub_category_id`, `product_status_id`, `product_visiblity_status_id`, `category_id`, `created_at`, `updated_at`) VALUES
-(174, 'Bokolo nifro', '', 'geramy bokolo', 'short1`short2`short3`short4short5', '2021-07-07', '2021-07-07', 2, 'Adey Basics', 5, 'Z End industrial engineering', 0, 36, 1, 21, 2, 4, 15, '2021-07-31 07:23:06', '2021-07-31 07:23:06'),
-(176, 'z comfort', '', 'High comfort', 'short1`short2`short3`short4short5', '2021-07-08', '2021-07-14', 2, 'Adey Basics', 4, 'Z End industrial engineering', 0, 38, 1, 14, 1, 4, 14, '2021-07-31 08:33:41', '2021-07-31 08:33:41'),
-(179, 'Banana', '', 'fresh quality banana', 'short1`short2`short3`short4short5', '2021-07-14', '2021-07-23', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 36, 1, 20, 2, 2, 15, '2021-07-31 09:15:25', '2021-07-31 09:15:25'),
-(180, 'Banana', '', 'fresh quality banana', 'short1`short2`short3`short4short5', '2021-07-14', '2021-07-23', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 36, 1, 20, 2, 2, 15, '2021-07-31 09:18:17', '2021-07-31 09:18:17'),
-(181, 'Banana', '', 'fresh quality banana', 'short1`short2`short3`short4short5', '2021-07-14', '2021-07-23', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 36, 1, 20, 2, 2, 15, '2021-07-31 09:19:14', '2021-07-31 09:19:14'),
-(183, 'Techno', '', 'our best version of techno v...', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-14', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:02:47', '2021-07-31 12:02:47'),
-(184, 'Samsung Galaxy', '', 'samsung s12', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-08', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:09:19', '2021-07-31 12:09:19'),
-(185, 'Samsung Galaxy', '', 'samsung s12', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-08', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:14:22', '2021-07-31 12:14:22'),
-(186, 'Heral News', '', 'samsung s12', 'short1`short2`short3`short4short5', '2021-07-02', '2021-07-08', 2, 'Adey Basics', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 2, 13, '2021-07-31 12:16:05', '2021-07-31 12:16:05'),
-(187, 'Sinarline Exercise Book', '', 'best ISO standard', 'short1`short2`short3`short4short5', '2021-07-16', '2021-07-14', 2, 'das4', NULL, 'Z End industrial engineering', 0, 38, 1, 24, 2, 3, 13, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
-(188, 'Zara', '', 'zara ena chandra', 'short1`short2`short3`short4short5', '2021-07-09', '2021-07-09', 2, 'Adey Basics', NULL, 'Z end technology', 0, 38, 1, 14, 1, 1, 14, '2021-07-31 12:31:08', '2021-07-31 12:31:08'),
-(189, 'Zara', '', 'asdfasd', 'short1`short2`short3`short4short5', '2021-07-15', '2021-07-07', 2, 'Adey Basics', NULL, 'Z end technology', 0, 38, 1, 23, 1, 1, 13, '2021-07-31 12:38:58', '2021-07-31 12:38:58'),
-(190, 'z comfort', '', 'sdfas', 'short1`short2`short3`short4short5', '2021-07-28', '2021-07-22', 2, 'da', NULL, 'Z end technology', 0, 38, 1, 23, 1, 1, 13, '2021-07-31 17:40:27', '2021-07-31 17:40:27'),
-(194, 'shose', '', 'rtrt', 'heihg quality`heihg quality`heihg quality', '2021-07-30', '1970-01-01', 2, 'nike', NULL, 'nike campany', 0, 36, 1, 20, 1, 3, 15, '2021-08-02 06:31:36', '2021-08-02 06:31:36'),
-(195, 'shose', '', 'rtrt', 'heihg quality`heihg quality`heihg quality', '2021-07-30', '1970-01-01', 2, 'nike', NULL, 'nike campany', 0, 36, 1, 20, 1, 3, 15, '2021-08-02 06:32:39', '2021-08-02 06:32:39'),
-(196, 'shose', '', 'fgfg', 'heihg quality`heihg quality`heihg quality', '2021-07-30', '1970-01-01', 2, 'nike', NULL, 'nike campany', 0, 36, 1, 20, 1, 3, 15, '2021-08-02 06:43:57', '2021-08-02 06:43:57');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_skus`
---
-
-CREATE TABLE `product_skus` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `sku` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `unit_price` double NOT NULL,
-  `onhand_quantity` int(11) NOT NULL,
-  `product_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `product_skus`
---
-
-INSERT INTO `product_skus` (`id`, `sku`, `unit_price`, `onhand_quantity`, `product_id`, `created_at`, `updated_at`) VALUES
-(105, 'wh-lg', 3, 4, 174, '2021-07-31 07:23:06', '2021-07-31 07:23:06'),
-(106, 'bl-md', 5, 5, 174, '2021-07-31 07:23:07', '2021-07-31 07:23:07'),
-(110, 'wh', 1410, 5, 183, '2021-07-31 12:02:47', '2021-07-31 12:02:47'),
-(111, 'bl', 1246, 5, 183, '2021-07-31 12:02:47', '2021-07-31 12:02:47'),
-(113, 'wh185', 3, 3, 185, '2021-07-31 12:14:22', '2021-07-31 12:14:22'),
-(114, 'bl185', 4, 3, 185, '2021-07-31 12:14:23', '2021-07-31 12:14:23'),
-(115, 'wh186', 3, 3, 186, '2021-07-31 12:16:05', '2021-07-31 12:16:05'),
-(116, 'bl186', 4, 3, 186, '2021-07-31 12:16:05', '2021-07-31 12:16:05'),
-(117, '32187', 4, 5, 187, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
-(118, '50187', 5, 6, 187, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
-(119, '10187', 4, 3, 187, '2021-07-31 12:21:56', '2021-07-31 12:21:56'),
-(120, '196', 12, 42, 196, '2021-08-02 06:43:57', '2021-08-02 06:43:57');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_statuses`
---
-
-CREATE TABLE `product_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `product_statuses`
---
-
-INSERT INTO `product_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'pending', 'product is waiting to be accepted and verified by product managment team .it is a defualt state when a vendor list his product.till it is inspected', '2021-07-13 04:48:20', '2021-07-13 04:48:20'),
-(2, 'active', 'product will be automatically listed on this state', '2021-07-13 04:48:58', '2021-07-13 04:48:58');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_tag`
---
-
-CREATE TABLE `product_tag` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `product_id` bigint(20) UNSIGNED NOT NULL,
-  `tag_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `product_tag`
---
-
-INSERT INTO `product_tag` (`id`, `product_id`, `tag_id`, `created_at`, `updated_at`) VALUES
-(99, 174, 126, NULL, NULL),
-(100, 174, 127, NULL, NULL),
-(102, 176, 129, NULL, NULL),
-(105, 179, 132, NULL, NULL),
-(106, 179, 133, NULL, NULL),
-(107, 181, 135, NULL, NULL),
-(108, 181, 136, NULL, NULL),
-(111, 183, 139, NULL, NULL),
-(112, 184, 140, NULL, NULL),
-(113, 185, 141, NULL, NULL),
-(114, 186, 142, NULL, NULL),
-(115, 187, 143, NULL, NULL),
-(116, 188, 144, NULL, NULL),
-(117, 189, 145, NULL, NULL),
-(118, 189, 146, NULL, NULL),
-(119, 190, 147, NULL, NULL),
-(121, 195, 150, NULL, NULL),
-(122, 196, 151, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_visiblity_statuses`
---
-
-CREATE TABLE `product_visiblity_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `product_visiblity_statuses`
---
-
-INSERT INTO `product_visiblity_statuses` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'new', 'product is new', '2021-07-13 06:02:56', '2021-07-13 06:02:56'),
-(2, 'featured', 'product is featured', '2021-07-13 06:03:18', '2021-07-13 06:03:18'),
-(3, 'best seller', 'product is best seller', '2021-07-13 06:03:50', '2021-07-13 06:03:50'),
-(4, 'normal', 'product is normal(default)', '2021-07-13 06:04:18', '2021-07-13 06:04:18');
-
--- --------------------------------------------------------
 
 --
 -- Table structure for table `refunds`
 --
 
-CREATE TABLE `refunds` (
+CREATE TABLE IF NOT EXISTS `refunds` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `return_order_id` bigint(20) UNSIGNED NOT NULL,
   `payment_type_id` bigint(20) UNSIGNED NOT NULL,
@@ -908,7 +910,7 @@ CREATE TABLE `refunds` (
 -- Table structure for table `refund_items`
 --
 
-CREATE TABLE `refund_items` (
+CREATE TABLE IF NOT EXISTS `refund_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `refund_id` bigint(20) UNSIGNED NOT NULL,
   `return_item_id` bigint(20) UNSIGNED NOT NULL,
@@ -923,7 +925,7 @@ CREATE TABLE `refund_items` (
 -- Table structure for table `return_items`
 --
 
-CREATE TABLE `return_items` (
+CREATE TABLE IF NOT EXISTS `return_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `return_order_id` bigint(20) UNSIGNED NOT NULL,
   `order_item_id` bigint(20) UNSIGNED NOT NULL,
@@ -942,7 +944,7 @@ CREATE TABLE `return_items` (
 -- Table structure for table `return_item_statuses`
 --
 
-CREATE TABLE `return_item_statuses` (
+CREATE TABLE IF NOT EXISTS `return_item_statuses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -964,7 +966,7 @@ INSERT INTO `return_item_statuses` (`id`, `name`, `description`, `created_at`, `
 -- Table structure for table `return_methodes`
 --
 
-CREATE TABLE `return_methodes` (
+CREATE TABLE IF NOT EXISTS `return_methodes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -978,7 +980,7 @@ CREATE TABLE `return_methodes` (
 -- Table structure for table `return_orders`
 --
 
-CREATE TABLE `return_orders` (
+CREATE TABLE IF NOT EXISTS `return_orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `return_status_id` bigint(20) UNSIGNED NOT NULL,
   `return_methode_id` bigint(20) UNSIGNED NOT NULL,
@@ -995,7 +997,7 @@ CREATE TABLE `return_orders` (
 -- Table structure for table `return_statuses`
 --
 
-CREATE TABLE `return_statuses` (
+CREATE TABLE IF NOT EXISTS `return_statuses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1018,7 +1020,7 @@ INSERT INTO `return_statuses` (`id`, `name`, `description`, `created_at`, `updat
 -- Table structure for table `reviews`
 --
 
-CREATE TABLE `reviews` (
+CREATE TABLE IF NOT EXISTS `reviews` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1044,7 +1046,7 @@ INSERT INTO `reviews` (`id`, `product_name`, `description`, `title`, `rate`, `bu
 -- Table structure for table `review_statuses`
 --
 
-CREATE TABLE `review_statuses` (
+CREATE TABLE IF NOT EXISTS `review_statuses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1066,7 +1068,7 @@ INSERT INTO `review_statuses` (`id`, `name`, `description`, `created_at`, `updat
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `roles` (
+CREATE TABLE IF NOT EXISTS `roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1090,7 +1092,7 @@ INSERT INTO `roles` (`id`, `name`, `description`, `created_at`, `updated_at`) VA
 -- Table structure for table `shipping_addresses`
 --
 
-CREATE TABLE `shipping_addresses` (
+CREATE TABLE IF NOT EXISTS `shipping_addresses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `region` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1145,7 +1147,7 @@ INSERT INTO `shipping_addresses` (`id`, `country`, `region`, `zone`, `city`, `su
 -- Table structure for table `sku_values`
 --
 
-CREATE TABLE `sku_values` (
+CREATE TABLE IF NOT EXISTS `sku_values` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `product_sku_id` bigint(20) UNSIGNED NOT NULL,
@@ -1180,7 +1182,7 @@ INSERT INTO `sku_values` (`id`, `product_id`, `product_sku_id`, `option_id`, `op
 -- Table structure for table `sub_categories`
 --
 
-CREATE TABLE `sub_categories` (
+CREATE TABLE IF NOT EXISTS `sub_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1213,7 +1215,7 @@ INSERT INTO `sub_categories` (`id`, `name`, `slug`, `description`, `have_product
 -- Table structure for table `tags`
 --
 
-CREATE TABLE `tags` (
+CREATE TABLE IF NOT EXISTS `tags` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1355,7 +1357,7 @@ INSERT INTO `tags` (`id`, `name`, `description`, `created_at`, `updated_at`) VAL
 -- Table structure for table `units`
 --
 
-CREATE TABLE `units` (
+CREATE TABLE IF NOT EXISTS `units` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1379,7 +1381,7 @@ INSERT INTO `units` (`id`, `name`, `description`, `abbrevation`, `created_at`, `
 -- Table structure for table `vendors`
 --
 
-CREATE TABLE `vendors` (
+CREATE TABLE IF NOT EXISTS `vendors` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `contact_first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `contact_last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1411,7 +1413,7 @@ INSERT INTO `vendors` (`id`, `contact_first_name`, `contact_last_name`, `date_of
 -- Table structure for table `vendor_balances`
 --
 
-CREATE TABLE `vendor_balances` (
+CREATE TABLE IF NOT EXISTS `vendor_balances` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `balance` double NOT NULL,
   `is_paid` tinyint(1) NOT NULL,
@@ -1427,7 +1429,7 @@ CREATE TABLE `vendor_balances` (
 -- Table structure for table `vendor_statuses`
 --
 
-CREATE TABLE `vendor_statuses` (
+CREATE TABLE IF NOT EXISTS `vendor_statuses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1449,7 +1451,7 @@ INSERT INTO `vendor_statuses` (`id`, `name`, `description`, `created_at`, `updat
 -- Table structure for table `wishlists`
 --
 
-CREATE TABLE `wishlists` (
+CREATE TABLE IF NOT EXISTS `wishlists` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `buyer_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1462,7 +1464,7 @@ CREATE TABLE `wishlists` (
 -- Table structure for table `wishlist_items`
 --
 
-CREATE TABLE `wishlist_items` (
+CREATE TABLE IF NOT EXISTS `wishlist_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `wishlist_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,

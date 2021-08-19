@@ -24,18 +24,18 @@ class Product extends Model
     }
 
      public function product_status(){
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(ProductStatus::class);
     }
 
      public function product_visiblity_status(){
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(ProductVisiblityStatus::class);
     }
 
     public function vendor(){
-        return $this->belongsTo(SubCategory::class);
-    } 
+        return $this->belongsTo(Vendor::class);
+    }
      public function unit(){
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(Unit::class);
     }
 
     public function options(){
@@ -49,7 +49,7 @@ class Product extends Model
     public function product_skus(){
         return $this->hasMany(ProductSku::class);
     }
-    
+
     public function images(){
         return $this->hasMany(Image::class);
     }

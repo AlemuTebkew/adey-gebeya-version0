@@ -22,25 +22,49 @@ use ApiResponser;
 
     public function search(Request $request) {
      //--------search works but pagination donot work------------------
-        $query=Employee::query();
+        $query=Category::query();
         // $e='employees';
         $search=$request->search_by;
-        $sort=$request->sort_by;
-        $query = $query->where('name', 'like', "%{$query}%")
-                     ->orWhere('description', 'like', "%{$query}%")
-                     ->get();
-                    $query= $query->orderBy($sort,'asc');
-                    $this->sortData(CategoryResource::collection($search)->collection);
-                  
-                  return response()->json([
-                'data' => $query
-            ]);
+        $sort=$request->input('sort_by','name');
+        $query = $query->where('name', 'like', "%{$search}%")
+                     ->orWhere('description', 'like', "%{$search}%");
+                $query->orderBy($sort,'asc');
+      // $this->sortData(CategoryResource::collection($search)->collection);
+      return CategoryResource::collection($query->paginate(15));
+                //  return response()->json([ 'Search Results' => $query ]);
         }
 
-        public function sort()
+        public function sort(Request $request)
         {
-            return $this->sortData(CategoryResource::collection(Category::get())->collection);
+           $query=Category::query();
+           $sorts=explode(',',$request->input('sort',''));
+           foreach ($sorts as  $sortColumn) {
+               $sortDirection=str_starts_with($sortColumn,'-') ? 'desc' : 'asc';
+               $sortColumn=ltrim($sortColumn,'-');
+               $query->orderBy($sortColumn,$sortDirection);
+           }
+           return CategoryResource::collection($query->paginate(15));
+           // return $this->sortData(CategoryResource::collection(Category::get())->collection);
         }
+
+
+        public function filter(Request $request)
+        {
+           $query=Category::query();
+           $query->when($request->filled('filter'),function($query,$request){
+           $filters=explode(',',$request->filter);
+           foreach ($filters as $filter) {
+               [$criteria,$value]=explode(':',$filter);
+               $query->where($criteria,$value);
+           }
+           return $query;
+           });
+
+           return CategoryResource::collection($query->paginate(15));
+           // return $this->sortData(CategoryResource::collection(Category::get())->collection);
+        }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -56,7 +80,7 @@ use ApiResponser;
             'description'=>'required',
             'image'=>'image',
             'have_sub_category'=>'required',
-            
+
           ]);
           if($request->hasFile('image')){
             $file=$request->file('image');
@@ -164,6 +188,6 @@ use ApiResponser;
         //     $subCategories->delete();
         // }
 
- 
+
     }
 }

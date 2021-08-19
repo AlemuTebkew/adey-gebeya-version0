@@ -41,22 +41,34 @@ return [
             'provider' => 'users',
         ],
 
-        'employee' => [
-            'driver' => 'session',
-            'provider' => 'employees',
-        ],
-
-        'vendor' => [
-            'driver' => 'session',
-            'provider' => 'vendors',
-        ],
-
-
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
         ],
+        //newly created guards with sanctum driver either for token or session based
+        'employee' => [
+            'driver' => 'sanctum',
+            'provider' => 'employees',
+        ],
+
+        'vendor' => [
+            'driver' => 'sanctum',
+            'provider' => 'vendors',
+        ],
+
+        'buyer' => [
+            'driver' => 'sanctum',
+            'provider' => 'buyers',
+        ],
+
+        'delivery_boy' => [
+            'driver' => 'sanctum',
+            'provider' => 'employees',
+        ],
+
+
+
     ],
 
     /*
@@ -80,17 +92,23 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],    
-        
-        'employee' => [
+        ],
+  // new providers
+        'employees' => [
             'driver' => 'eloquent',
             'model' => App\Models\Employee::class,
-        ],     
-        
+        ],
+
         'vendors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Vendor::class,
         ],
+        'buyers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Buyer::class,
+        ],
+
+
 
         // 'users' => [
         //     'driver' => 'database',
@@ -119,15 +137,15 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
-        ],     
-        
+        ],
+
         'employees' => [
             'provider' => 'employees',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
-        ],   
-        
+        ],
+
         'vendors' => [
             'provider' => 'vendors',
             'table' => 'password_resets',
