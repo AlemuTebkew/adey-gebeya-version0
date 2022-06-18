@@ -39,7 +39,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    submit: function submit() {//   this.$store.dispatch('addEmployee', this.newEmployee)
+    submit: function submit() {
+      this.newEmployee.employee_status_id = this.$refs.role.value;
+      this.newEmployee.role_id = this.$refs.role.value;
+      this.$store.dispatch('addEmployee', this.newEmployee);
     }
   }
 });
@@ -131,7 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-559ed469");
@@ -564,7 +567,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "select state"
   }, _hoisted_49, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newDeliveryboy.region]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" invisible "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-none d-lg-block  col-lg-1 \">\r\n\r\n</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zone "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.newDeliveryboy.region]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" invisible "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-none d-lg-block  col-lg-1 \">\n\n</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zone "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.newDeliveryboy.zone = $event;
@@ -664,7 +667,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-23e5cfb2");
@@ -1012,7 +1015,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.form-group[data-v-559ed469]{\r\n    margin-bottom: 20px;\n}\nform[data-v-559ed469]{\r\n    padding-bottom: 200px;\n}\nbutton[type=submit][data-v-559ed469]{\r\n   background-color: #ff9500;\r\n   border:none\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.form-group[data-v-559ed469]{\n    margin-bottom: 20px;\n}\nform[data-v-559ed469]{\n    padding-bottom: 200px;\n}\nbutton[type=submit][data-v-559ed469]{\n   background-color: #ff9500;\n   border:none\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -72,6 +72,9 @@ export default {
     margin-left: 18% !important;
     /* overflow: visible; */
 }
+.sidebar{
+
+}
 .loading-page{
   z-index: 10000;
   width: 100%;

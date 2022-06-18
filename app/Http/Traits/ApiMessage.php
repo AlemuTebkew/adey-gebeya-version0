@@ -16,8 +16,8 @@ trait ApiMessage{
                 'data'    => $result,
                 'message' => $message,
             ];
-
-            return response()->json($message, 200);
+         
+            return response()->json($result, 200);
         }
 
 

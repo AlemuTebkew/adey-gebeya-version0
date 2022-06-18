@@ -381,11 +381,11 @@ const router = createRouter({
   linkActiveClass: 'active'
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.authRequired) && !store.getters.isManagerVerified) {
-    next({ name: 'AdminLogin', query: { to: to.path } })
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.authRequired) && !store.getters.isManagerVerified) {
+//     next({ name: 'AdminLogin', query: { to: to.path } })
+//   } else {
+//     next()
+//   }
+// })
 export default router

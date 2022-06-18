@@ -36,14 +36,23 @@ export default {
   },
   methods: {
     login () {
-      axios.get('/sanctum/csrf-cookie').then(response => {
-        axios.post('/spa/login', JSON.stringify(this.credentials)).then(response => {
+       axios.get('/sanctum/csrf-cookie').then(response => {
+        axios.post('/spa/employee/login', JSON.stringify({
+            email:'alemteb1010@gmail.co',
+            password:'12345678'
+        }),{
+            headers:{
+                'Content-Type':'application/json',
+                accept :'application/json'
+            }
+        }).then(response => {
           // axios.get('/api/products').then(response => {
           // console.log('im from inner most axios good time for rest')
           // console.log(response.data)
           // })
 
           if (response.status === 200) {
+              console.log(e.response.body)
             this.saveManagerData(response.body)
             this.logedInSuccess = true
           } else { this.errorText = 'faild to authenticate' }

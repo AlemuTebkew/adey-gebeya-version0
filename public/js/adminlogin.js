@@ -30,12 +30,22 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/sanctum/csrf-cookie').then(function (response) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/spa/login', JSON.stringify(_this.credentials)).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/spa/employee/login', JSON.stringify({
+          email: 'alemteb1010@gmail.co',
+          password: '12345678'
+        }), {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json'
+          }
+        }).then(function (response) {
           // axios.get('/api/products').then(response => {
           // console.log('im from inner most axios good time for rest')
           // console.log(response.data)
           // })
           if (response.status === 200) {
+            console.log(e.response.body);
+
             _this.saveManagerData(response.body);
 
             _this.logedInSuccess = true;
@@ -80,7 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-119e3439");
@@ -198,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media only screen and (min-width: 768px){\n.wrapper[data-v-119e3439]{\r\n    width: 25%;\n}\n.btn-login[data-v-119e3439]{\r\n    background-color: #ff9500;\n}\n.title[data-v-119e3439]{\r\n     color: #ff9500;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media only screen and (min-width: 768px){\n.wrapper[data-v-119e3439]{\n    width: 25%;\n}\n.btn-login[data-v-119e3439]{\n    background-color: #ff9500;\n}\n.title[data-v-119e3439]{\n     color: #ff9500;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -292,6 +292,7 @@
 }
 .offcanvas{
  width:18% !important;
+ /* width: 200px; */
  visibility: visible;
  transform: none;
  background-color: #ff9500;

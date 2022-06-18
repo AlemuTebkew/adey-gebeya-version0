@@ -14,7 +14,7 @@ class EmailVerificationController extends Controller
     public function sendVerificationEmail(Request $request)
     {
 
-        return $request;
+
         if ($request->user()->hasVerifiedEmail()) {
             return $this->sendError('Already Verified','');
 

@@ -8,7 +8,7 @@ use App\Models\Address;
 use App\Models\Employee;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -35,7 +35,7 @@ class EmployeeController extends Controller
     }
 
     public function search(Request $request) {
-     
+
     // $e='employees';
         $query=$request->search_by;
         $search = Employee::where('first_name', 'like', "%{$query}%")
@@ -61,7 +61,7 @@ class EmployeeController extends Controller
         $address->region=$request->region;
         $address->zone=$request->zone;
         $address->city=$request->city;
-        $address->sub_city=$request->sub_city;      
+        $address->sub_city=$request->sub_city;
         $address->zip_cod=$request->zip_cod;
         $address->kebele=$request->kebele;
         $address->village=$request->village;
@@ -70,7 +70,7 @@ class EmployeeController extends Controller
         $address->description=$request->description;
         $address->save();
         // $address->refresh();
-        
+
         $employee=new Employee();
         $employee->first_name=$request->first_name;
         $employee->last_name=$request->last_name;
@@ -80,16 +80,16 @@ class EmployeeController extends Controller
         $employee->email=$request->email;
         $employee->phone_number=$request->phone_number;
         $employee->gender=$request->gender;
-        $employee->password=$request->password;
+        $employee->password=Hash::make($request->password);
         //$employee->address_id=$request->address_id;
         $employee->role_id=$request->role_id;
         $employee->employee_status_id=$request->employee_status_id;
-       
+
         $address->refresh();
         $address->employee()->save($employee);
-        
-       
-     
+
+
+
 
 
       //  Employee::create($request->all());
@@ -123,7 +123,7 @@ class EmployeeController extends Controller
         $address->region=$request->region;
         $address->zone=$request->zone;
         $address->city=$request->city;
-        $address->sub_city=$request->sub_city;      
+        $address->sub_city=$request->sub_city;
         $address->zip_cod=$request->zip_cod;
         $address->kebele=$request->kebele;
         $address->village=$request->village;
@@ -132,8 +132,8 @@ class EmployeeController extends Controller
         $address->description=$request->description;
         $address->save();
         // $address->refresh();
-        
-      
+
+
         $employee->first_name=$request->first_name;
         $employee->last_name=$request->last_name;
         $time = strtotime($request->date_of_birth);
@@ -142,15 +142,22 @@ class EmployeeController extends Controller
         $employee->email=$request->email;
         $employee->phone_number=$request->phone_number;
         $employee->gender=$request->gender;
-        $employee->password=$request->password;
+        $employee->password=Hash::make($request->password);
         //$employee->address_id=$request->address_id;
         $employee->role_id=$request->role_id;
         $employee->employee_status_id=$request->employee_status_id;
-       
+
         $address->refresh();
         $address->employee()->save($employee);
 
-        return $employee;
+
+
+        if( $employee) {
+            return $this->successResponse('successfully Registered ',200);
+        }
+        else{
+            return $this->errorResponse('fail to register',501);
+        }
             }
 
     /**
@@ -161,18 +168,18 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        
+
 
         if( $employee->delete()) {
             return $this->successResponse('successfully deleted ',202);
         }
         else{
             return $this->errorResponse('fail to delete',501);
-        } 
+        }
    }
- 
+
         public function searchByPin($pin){
-            
+
             return Employee::where('date_of_birth',$pin)->get();
         }
 }

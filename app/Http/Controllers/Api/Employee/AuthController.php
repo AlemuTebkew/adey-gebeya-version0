@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use SebastianBergmann\Environment\Console;
 
 class AuthController extends Controller
 {
@@ -23,9 +24,15 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        /////
+        $attr = $request->validate([
+            'email' => 'required|string|',
+            'password' => 'required|string|min:2'
+        ]);
+
         $employee = Employee::where('email', $request->email)->first();
-        if (!$employee || !password_verify($request->password, $employee->password)) {
+
+      //  return $request->email;
+        if (!$employee ) {
 
              $error='These credentials do not match our records.';
              $errors= [
@@ -34,7 +41,7 @@ class AuthController extends Controller
            return $this->sendError($error,$errors,422);
         }
             // Authentication passed...
-        Auth::guard('employee')->login($employee);
+       // Auth::guard('employee')->login($employee);
 
        $message='LoggedIn Succesfully ';
        $data= [
@@ -42,6 +49,8 @@ class AuthController extends Controller
           'role'=> $employee->role,
           'permissions'=>$employee->role->permissions,
         ];
+
+
         return $this->sendResponse($data,$message);
     }
 

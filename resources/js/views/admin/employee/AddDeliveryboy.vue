@@ -194,8 +194,11 @@ export default {
   },
   methods: {
     submit () {
-    //   this.$store.dispatch('addEmployee', this.newEmployee)
-    }
+
+
+      this.newEmployee.employee_status_id = this.$refs.role.value
+      this.newEmployee.role_id = this.$refs.role.value
+      this.$store.dispatch('addEmployee', this.newEmployee)}
   }
 }
 
